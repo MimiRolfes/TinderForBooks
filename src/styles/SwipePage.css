@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:wght@300;400;700&display=swap');
+
+.swipe-page {
+  background: #758695;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deck {
+  position: relative;
+  width: 900px;
+  height: 420px;
+}
+
+/* Background peek */
+.deck-stack {
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.18);
+  z-index: 0;
+}
+.deck-stack-1 { transform: translateY(-32px); }
+.deck-stack-2 {
+  transform: translateY(-16px);
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* Card base */
+.deck-card {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  border-radius: 40px;
+  box-shadow: none;
+  z-index: 1;
+}
+
+/* Under card */
+.deck-card.next {
+  transform: translateY(8px) scale(0.995);
+}
+
+/* Top card */
+.deck-card.top {
+  z-index: 2;
+}
+
+/* Outgoing layer should NEVER block clicks */
+.outgoing-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Outgoing card: transition enabled */
+.deck-card.outgoing {
+  z-index: 3;
+  transition: transform 260ms ease;
+  transform: translateX(0) translateY(0) rotate(0deg);
+}
+
+/* Swipe directions (applied only after phase switches to "go") */
+.deck-card.outgoing.swipe-right {
+  transform: translateX(1200px) rotate(10deg);
+}
+
+.deck-card.outgoing.swipe-left {
+  transform: translateX(-1200px) rotate(-10deg);
+}
+
+.deck-card.outgoing.swipe-down {
+  transform: translateY(900px);
+}
+
+/* Inner layout */
+.card-inner {
+  height: 100%;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 260px 1fr 80px;
+  gap: 40px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Cover */
+.cover {
+  width: 220px;
+  height: 220px;
+  border: 3px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cover img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Claptext */
+.claptext {
+  border: 3px solid #000;
+  padding: 30px;
+  font-family: "Inknut Antiqua", serif;
+  box-sizing: border-box;
+}
+.claptext h2 { margin: 0 0 12px; }
+.claptext p { margin: 0; }
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+.btn.like {
+  background: #fff;
+  border: 3px solid #e35b4f;
+}
+.btn.read {
+  background: #6db37b;
+  color: #fff;
+}
+.btn.dislike {
+  background: #f2eddc;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .deck { width: 92vw; height: 420px; }
+  .card-inner {
+    grid-template-columns: 220px 1fr 70px;
+    gap: 24px;
+  }
+}
+
