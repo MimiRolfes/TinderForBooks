@@ -8,6 +8,43 @@ const BOOKS = [
   { id: 4, title: "Book Four", claptext: "More text…", cover: "/assets/Book.png" },
 ];
 
+const FALLBACK_COVER = "/assets/Book.png";
+
+const buildQueryFromPrefs = (prefs) => {
+  const parts = [];
+
+  if (prefs?.genres?.length) {
+    const subjectQuery = prefs.genres.map((g) => `subject:${g}`).join(" OR ");
+    parts.push(`(${subjectQuery})`);
+  }
+
+  if (prefs?.author) {
+    parts.push(`inauthor:${prefs.author}`);
+  }
+
+  return parts.length ? parts.join(" ") : "fiction";
+};
+
+const matchesLength = (pageCount, length) => {
+  if (!pageCount || !length) return true;
+  if (length === "<100") return pageCount < 100;
+  if (length === "100-300") return pageCount >= 100 && pageCount <= 300;
+  if (length === "300-500") return pageCount >= 300 && pageCount <= 500;
+  if (length === ">500") return pageCount > 500;
+  return true;
+};
+
+const normalizeVolume = (volume, index) => {
+  const info = volume.volumeInfo || {};
+  return {
+    id: volume.id || `book-${index}`,
+    title: info.title || "Untitled",
+    claptext: info.description || "No description available.",
+    cover: info.imageLinks?.thumbnail || FALLBACK_COVER,
+    pageCount: info.pageCount || null,
+  };
+};
+
 function Card({ book, variant, animClass, onDecide, interactive }) {
   return (
     <div className={`deck-card ${variant} ${animClass || ""}`} style={{ pointerEvents: interactive ? "auto" : "none" }}>
@@ -40,6 +77,7 @@ function Card({ book, variant, animClass, onDecide, interactive }) {
 export default function Swipe() {
   const [index, setIndex] = useState(0);
   const [locked, setLocked] = useState(false);
+  const [books, setBooks] = useState(BOOKS);
 
   // outgoing state split into 2 phases so transition reliably starts
   const [outgoing, setOutgoing] = useState(null);
@@ -47,8 +85,35 @@ export default function Swipe() {
 
   const cleanupTimerRef = useRef(null);
 
-  const topBook = useMemo(() => BOOKS[index % BOOKS.length], [index]);
-  const nextBook = useMemo(() => BOOKS[(index + 1) % BOOKS.length], [index]);
+  useEffect(() => {
+    const prefsRaw = sessionStorage.getItem("tinderForBooks_preferences");
+    const prefs = prefsRaw ? JSON.parse(prefsRaw) : null;
+
+    const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
+    const query = buildQueryFromPrefs(prefs);
+    const url = new URL("https://www.googleapis.com/books/v1/volumes");
+    url.searchParams.set("q", query);
+    url.searchParams.set("maxResults", "20");
+    if (apiKey) url.searchParams.set("key", apiKey);
+
+    fetch(url.toString())
+      .then((res) => res.json())
+      .then((data) => {
+        const items = Array.isArray(data.items) ? data.items : [];
+        const normalized = items.map(normalizeVolume);
+        const filtered = normalized.filter((book) => matchesLength(book.pageCount, prefs?.length));
+        if (filtered.length) {
+          setBooks(filtered);
+        } else if (normalized.length) {
+          setBooks(normalized);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const activeBooks = books.length ? books : BOOKS;
+  const topBook = useMemo(() => activeBooks[index % activeBooks.length], [activeBooks, index]);
+  const nextBook = useMemo(() => activeBooks[(index + 1) % activeBooks.length], [activeBooks, index]);
 
   const clearCleanupTimer = () => {
     if (cleanupTimerRef.current) {

@@ -19,14 +19,36 @@ function Preferences() {
     );
   };
 
+  const lengthToPages = (len) => {
+    if (len === "<100") return { pagesMin: null, pagesMax: 99 };
+    if (len === "100-300") return { pagesMin: 100, pagesMax: 300 };
+    if (len === "300-500") return { pagesMin: 300, pagesMax: 500 };
+    if (len === ">500") return { pagesMin: 501, pagesMax: null };
+    return { pagesMin: null, pagesMax: null };
+  };
+
   const handleFinish = () => {
-    const prefs = {
+    // 1) Dein bestehendes Format (kannst du behalten)
+    const prefsLegacy = {
       genres: selectedGenres,
       length: selectedLength,
       author: author.trim(),
     };
+    sessionStorage.setItem("tinderForBooks_preferences", JSON.stringify(prefsLegacy));
 
-    sessionStorage.setItem("tinderForBooks_preferences", JSON.stringify(prefs));
+    // 2) Format für Swipe.jsx (Google Books)
+    // Google Books query: wir nehmen erstmal das ERSTE Genre als subject
+    const { pagesMin, pagesMax } = lengthToPages(selectedLength);
+
+    const prefsForSwipe = {
+      genre: selectedGenres[0] || "", // subject:<genre>
+      author: author.trim(),
+      pagesMin,
+      pagesMax,
+    };
+
+    sessionStorage.setItem("t4b_prefs", JSON.stringify(prefsForSwipe));
+
     navigate("/swipe");
   };
 
@@ -43,9 +65,7 @@ function Preferences() {
                   <button
                     key={g}
                     type="button"
-                    className={
-                      "option-chip" + (selectedGenres.includes(g) ? " selected" : "")
-                    }
+                    className={"option-chip" + (selectedGenres.includes(g) ? " selected" : "")}
                     onClick={() => toggleGenre(g)}
                   >
                     {g}
@@ -74,9 +94,7 @@ function Preferences() {
                   <button
                     key={len}
                     type="button"
-                    className={
-                      "option-chip" + (selectedLength === len ? " selected" : "")
-                    }
+                    className={"option-chip" + (selectedLength === len ? " selected" : "")}
                     onClick={() => setSelectedLength(len)}
                   >
                     {len}
@@ -120,4 +138,3 @@ function Preferences() {
 }
 
 export default Preferences;
-
