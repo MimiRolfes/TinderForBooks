@@ -13,16 +13,16 @@ Dieses Projekt dient als Übung für Webentwicklung, Design und das Zusammenspie
 - 📘 Bücher werden mit **Titel, Autor und Cover** angezeigt
 - 🔄 Dynamisches Laden neuer Bücher
 - 🎨 Einfache, intuitive UI für schnelle Entscheidungen
-- 🌐 Modernes Frontend-Setup (je nachdem was du nutzt: React / JS / CSS etc.)
+- 🌐 Modernes Frontend-Setup (React / JS / CSS etc.)
 
 ---
 
 ## 🛠️ Tech Stack
-- **JavaScript / TypeScript** (abhängig von deinem Code)
+- **JavaScript / CSSt** 
 - **HTML & CSS**
-- **React** (falls du es nutzt)
-- **TailwindCSS** (optional – bitte bestätigen)
-- **API für Bücher** (falls du eine verwendest – sonst "Mock-Daten")
+- **React** 
+- **TailwindCSS** 
+- **API für Bücher** 
 
 
 ---
@@ -37,19 +37,3 @@ Dieses Projekt entstand, um:
 - erste Erfahrung mit kleinen Projekten zu sammeln
 
 ---
-
-## 🚀 Installation & Start
-
-```bash
-# Repository klonen
-git clone https://github.com/MimiRolfes/TinderForBooks.git
-
-# In das Projekt wechseln
-cd TinderForBooks
-
-# Dependencies installieren
-npm install
-
-# Development Server starten
-npm run dev
-
