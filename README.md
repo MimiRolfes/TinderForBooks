@@ -20,10 +20,9 @@ Dieses Projekt dient als Übung für Webentwicklung, Design und das Zusammenspie
 ## 🛠️ Tech Stack
 - **JavaScript** 
 - **HTML & CSS**
-- **React** 
+- **React**
 - **TailwindCSS** 
 - **API für Bücher** 
-
 
 ---
 
