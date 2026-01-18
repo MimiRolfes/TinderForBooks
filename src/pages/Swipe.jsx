@@ -9,14 +9,14 @@ const BOOKS = [
 ];
 
 const FALLBACK_COVER = "/assets/Book.png";
+const SWIPED_STORAGE_KEY = "tinderForBooks_swipedIds";
 
 const buildQueryFromPrefs = (prefs) => {
   const parts = [];
 
   if (prefs?.genres?.length) {
-    const subjectQuery = prefs.genres
-      .map((g) => `subject:"${g}"`)
-      .join(" OR ");
+    // OR-Verknüpfung der Genres (Google Books unterstützt OR)
+    const subjectQuery = prefs.genres.map((g) => `subject:"${g}"`).join(" OR ");
     parts.push(`(${subjectQuery})`);
   }
 
@@ -82,6 +82,15 @@ export default function Swipe() {
   const [index, setIndex] = useState(0);
   const [locked, setLocked] = useState(false);
   const [books, setBooks] = useState(BOOKS);
+  const [swipedIds, setSwipedIds] = useState(() => {
+    const raw = localStorage.getItem(SWIPED_STORAGE_KEY);
+    if (!raw) return new Set();
+    try {
+      return new Set(JSON.parse(raw));
+    } catch {
+      return new Set();
+    }
+  });
 
   // outgoing state split into 2 phases so transition reliably starts
   const [outgoing, setOutgoing] = useState(null);
@@ -106,19 +115,45 @@ export default function Swipe() {
       .then((data) => {
         const items = Array.isArray(data.items) ? data.items : [];
         const normalized = items.map(normalizeVolume);
-        const filtered = normalized.filter((book) => matchesLength(book.pageCount, prefs?.length));
+
+        // Filter nach Länge + bereits geswipten Büchern
+        const filtered = normalized
+          .filter((book) => matchesLength(book.pageCount, prefs?.length))
+          .filter((book) => !swipedIds.has(book.id));
+
         if (filtered.length) {
           setBooks(filtered);
         } else if (normalized.length) {
+          // Wenn alles geswiped war, fallback auf alle (ohne filter)
           setBooks(normalized);
         }
       })
       .catch(() => {});
-  }, []);
+  }, [swipedIds]);
 
   const activeBooks = books.length ? books : BOOKS;
-  const topBook = useMemo(() => activeBooks[index % activeBooks.length], [activeBooks, index]);
-  const nextBook = useMemo(() => activeBooks[(index + 1) % activeBooks.length], [activeBooks, index]);
+  const remainingBooks = useMemo(
+    () => activeBooks.filter((book) => !swipedIds.has(book.id)),
+    [activeBooks, swipedIds]
+  );
+  const topBook = useMemo(
+    () => (remainingBooks.length ? remainingBooks[index % remainingBooks.length] : null),
+    [remainingBooks, index]
+  );
+  const nextBook = useMemo(
+    () => (remainingBooks.length ? remainingBooks[(index + 1) % remainingBooks.length] : null),
+    [remainingBooks, index]
+  );
+
+  useEffect(() => {
+    if (!remainingBooks.length) {
+      setIndex(0);
+      return;
+    }
+    if (index >= remainingBooks.length) {
+      setIndex(0);
+    }
+  }, [index, remainingBooks.length]);
 
   const clearCleanupTimer = () => {
     if (cleanupTimerRef.current) {
@@ -134,13 +169,20 @@ export default function Swipe() {
   };
 
   const decide = (type) => {
-    if (locked) return;
+    if (locked || !topBook) return;
     setLocked(true);
 
     const dir = type === "like" ? "right" : type === "dislike" ? "left" : "down";
 
     // 1) Freeze current card as outgoing in "start" phase (no movement yet)
     setOutgoing({ book: topBook, dir, phase: "start" });
+
+    setSwipedIds((prev) => {
+      const next = new Set(prev);
+      next.add(topBook.id);
+      localStorage.setItem(SWIPED_STORAGE_KEY, JSON.stringify([...next]));
+      return next;
+    });
 
     // 2) Advance deck immediately so next card is already underneath
     setIndex((prev) => prev + 1);
@@ -183,10 +225,16 @@ export default function Swipe() {
         <div className="deck-stack deck-stack-2" aria-hidden="true" />
 
         {/* Under/Next */}
-        <Card book={nextBook} variant="next" animClass="" onDecide={decide} interactive={false} />
+        {nextBook && <Card book={nextBook} variant="next" animClass="" onDecide={decide} interactive={false} />}
 
         {/* Current Top (interactive when not locked) */}
-        <Card book={topBook} variant="top" animClass="" onDecide={decide} interactive={!locked} />
+        {topBook ? (
+          <Card book={topBook} variant="top" animClass="" onDecide={decide} interactive={!locked} />
+        ) : (
+          <div className="deck-empty" role="status" aria-live="polite">
+            Keine weiteren Bücher verfügbar.
+          </div>
+        )}
 
         {/* Outgoing copy */}
         {outgoing && (
