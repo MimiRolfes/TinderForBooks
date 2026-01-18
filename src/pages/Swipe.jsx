@@ -14,12 +14,14 @@ const buildQueryFromPrefs = (prefs) => {
   const parts = [];
 
   if (prefs?.genres?.length) {
-    const subjectQuery = prefs.genres.map((g) => `subject:${g}`).join(" OR ");
+    const subjectQuery = prefs.genres
+      .map((g) => `subject:"${g}"`)
+      .join(" OR ");
     parts.push(`(${subjectQuery})`);
   }
 
   if (prefs?.author) {
-    parts.push(`inauthor:${prefs.author}`);
+    parts.push(`inauthor:"${prefs.author}"`);
   }
 
   return parts.length ? parts.join(" ") : "fiction";
@@ -36,11 +38,13 @@ const matchesLength = (pageCount, length) => {
 
 const normalizeVolume = (volume, index) => {
   const info = volume.volumeInfo || {};
+  const thumbnail = info.imageLinks?.thumbnail;
+  const safeCover = thumbnail ? thumbnail.replace(/^http:/, "https:") : FALLBACK_COVER;
   return {
     id: volume.id || `book-${index}`,
     title: info.title || "Untitled",
-    claptext: info.description || "No description available.",
-    cover: info.imageLinks?.thumbnail || FALLBACK_COVER,
+    claptext: info.description || info.subtitle || "No description available.",
+    cover: safeCover,
     pageCount: info.pageCount || null,
   };
 };
@@ -93,7 +97,8 @@ export default function Swipe() {
     const query = buildQueryFromPrefs(prefs);
     const url = new URL("https://www.googleapis.com/books/v1/volumes");
     url.searchParams.set("q", query);
-    url.searchParams.set("maxResults", "20");
+    url.searchParams.set("maxResults", "40");
+    url.searchParams.set("orderBy", "relevance");
     if (apiKey) url.searchParams.set("key", apiKey);
 
     fetch(url.toString())
