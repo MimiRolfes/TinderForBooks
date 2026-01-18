@@ -18,7 +18,7 @@ Dieses Projekt dient als Übung für Webentwicklung, Design und das Zusammenspie
 ---
 
 ## 🛠️ Tech Stack
-- **JavaScript / CSSt** 
+- **JavaScript** 
 - **HTML & CSS**
 - **React** 
 - **TailwindCSS** 
@@ -37,3 +37,4 @@ Dieses Projekt entstand, um:
 - erste Erfahrung mit kleinen Projekten zu sammeln
 
 ---
+
