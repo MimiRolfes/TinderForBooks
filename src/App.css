@@ -1,4 +1,4 @@
-/* Root soll die komplette Breite und Höhe verwenden */
+
 #root {
   width: 100%;
   min-height: 100vh;
@@ -6,8 +6,6 @@
   padding: 0;
 }
 
-/* Optional: Wenn du später irgendwo .logo verwendest, kannst du das lassen.
-   Ansonsten sind diese Styles egal – sie stören das Layout nicht mehr. */
 
 .logo {
   height: 6em;

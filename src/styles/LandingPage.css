@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:wght@300;400;700&display=swap');
 
-/* Container: flex macht eine perfekte vertikale Zentrierung möglich */
 .landing-container {
   background-color: #758695;
   min-height: 100vh;
@@ -8,21 +7,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* VERTIKAL ZENTRIERT */
+  justify-content: center; 
   text-align: center;
 }
 
-/* Titel mittig + Zeilenabstand wie in Figma */
+
 .landing-title {
   font-family: 'Inknut Antiqua', serif;
   font-size: 96px;
   font-weight: 700;
   color: #EEEBD9;
-  line-height: 2.5;  /* ZEILENABSTAND zwischen den beiden Zeilen */ 
-  margin-bottom: 10rem; /* Abstand zum Button */
+  line-height: 2.5; 
+  margin-bottom: 10rem; 
 }
 
-/* Button: Abstand & Form wie in Figma */
+
 .landing-button {
   font-family: 'Inknut Antiqua', serif;
   font-size: 32px;
@@ -32,13 +31,13 @@
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  margin-bottom: 6rem; /* Abstand zu den Sections */
+  margin-bottom: 6rem; 
 }
 
 
-/* Abschnitts-Container */
+
 .section {
-  width: 60%;         /* etwas breiter = wie Figma */
+  width: 60%;        
   margin-bottom: 10rem;
   text-align: left;
   align-self: flex-start;
@@ -46,19 +45,19 @@
 }
 
 
-/* Überschrift: 48 px (dein Figma-Wert) */
+
 .section h2 {
   font-family: 'Inknut Antiqua', serif;
-  font-size: 48px;        /* WICHTIG */
+  font-size: 48px;      
   color: #EEEBD9;
   margin-bottom: 1.5rem;
   text-align: left;
 }
 
-/* Fließtext: 40 px (dein Figma-Wert) */
+
 .section p {
   font-family: 'Inria Sans', sans-serif;
-  font-size: 40px;        /* WICHTIG */
+  font-size: 40px;       
   color: #EEEBD9;
   line-height: 1.3;
   text-align: left;

@@ -15,7 +15,6 @@ const buildQueryFromPrefs = (prefs) => {
   const parts = [];
 
   if (prefs?.genres?.length) {
-    // OR-Verknüpfung der Genres (Google Books unterstützt OR)
     const subjectQuery = prefs.genres.map((g) => `subject:"${g}"`).join(" OR ");
     parts.push(`(${subjectQuery})`);
   }
@@ -92,9 +91,9 @@ export default function Swipe() {
     }
   });
 
-  // outgoing state split into 2 phases so transition reliably starts
+  
   const [outgoing, setOutgoing] = useState(null);
-  // outgoing: { book, dir: "right"|"left"|"down", phase: "start"|"go" }
+  
 
   const cleanupTimerRef = useRef(null);
 
@@ -116,7 +115,7 @@ export default function Swipe() {
         const items = Array.isArray(data.items) ? data.items : [];
         const normalized = items.map(normalizeVolume);
 
-        // Filter nach Länge + bereits geswipten Büchern
+        
         const filtered = normalized
           .filter((book) => matchesLength(book.pageCount, prefs?.length))
           .filter((book) => !swipedIds.has(book.id));
@@ -124,7 +123,6 @@ export default function Swipe() {
         if (filtered.length) {
           setBooks(filtered);
         } else if (normalized.length) {
-          // Wenn alles geswiped war, fallback auf alle (ohne filter)
           setBooks(normalized);
         }
       })
@@ -174,7 +172,7 @@ export default function Swipe() {
 
     const dir = type === "like" ? "right" : type === "dislike" ? "left" : "down";
 
-    // 1) Freeze current card as outgoing in "start" phase (no movement yet)
+    
     setOutgoing({ book: topBook, dir, phase: "start" });
 
     setSwipedIds((prev) => {
@@ -184,24 +182,24 @@ export default function Swipe() {
       return next;
     });
 
-    // 2) Advance deck immediately so next card is already underneath
+    
     setIndex((prev) => prev + 1);
 
-    // 3) Next frame: switch to "go" to trigger CSS transition
+    
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setOutgoing((prev) => (prev ? { ...prev, phase: "go" } : prev));
       });
     });
 
-    // 4) Fallback cleanup in case transitionend doesn't fire
+    
     clearCleanupTimer();
     cleanupTimerRef.current = window.setTimeout(() => {
       finishSwipe();
     }, 320);
   };
 
-  // keyboard support
+  
   useEffect(() => {
     const onKey = (e) => {
       if (locked) return;
@@ -220,14 +218,14 @@ export default function Swipe() {
   return (
     <div className="swipe-page">
       <div className="deck">
-        {/* Background peek */}
+        
         <div className="deck-stack deck-stack-1" aria-hidden="true" />
         <div className="deck-stack deck-stack-2" aria-hidden="true" />
 
-        {/* Under/Next */}
+ 
         {nextBook && <Card book={nextBook} variant="next" animClass="" onDecide={decide} interactive={false} />}
 
-        {/* Current Top (interactive when not locked) */}
+        
         {topBook ? (
           <Card book={topBook} variant="top" animClass="" onDecide={decide} interactive={!locked} />
         ) : (
@@ -236,12 +234,10 @@ export default function Swipe() {
           </div>
         )}
 
-        {/* Outgoing copy */}
         {outgoing && (
           <div
             className="outgoing-layer"
             onTransitionEnd={(e) => {
-              // make sure we only react to the transform transition on the outgoing card
               if (e.propertyName !== "transform") return;
               finishSwipe();
             }}

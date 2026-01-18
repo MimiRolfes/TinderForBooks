@@ -28,7 +28,6 @@ function Preferences() {
   };
 
   const handleFinish = () => {
-    // 1) Dein bestehendes Format (kannst du behalten)
     const prefsLegacy = {
       genres: selectedGenres,
       length: selectedLength,
@@ -36,12 +35,10 @@ function Preferences() {
     };
     sessionStorage.setItem("tinderForBooks_preferences", JSON.stringify(prefsLegacy));
 
-    // 2) Format für Swipe.jsx (Google Books)
-    // Google Books query: wir nehmen erstmal das ERSTE Genre als subject
     const { pagesMin, pagesMax } = lengthToPages(selectedLength);
 
     const prefsForSwipe = {
-      genre: selectedGenres[0] || "", // subject:<genre>
+      genre: selectedGenres[0] || "", 
       author: author.trim(),
       pagesMin,
       pagesMax,

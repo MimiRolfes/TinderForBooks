@@ -49,11 +49,7 @@ async function callGoogleBooks({ q, maxResults, startIndex, signal }) {
   return items.map(normalizeVolume);
 }
 
-/**
- * Robust fetching:
- * 1) Try strict query: subject:"..." + inauthor:"..."
- * 2) If no results, fallback to loose query: "<genre>" + inauthor:"..."
- */
+
 export async function fetchBooks({
   genre,
   author,
@@ -66,7 +62,6 @@ export async function fetchBooks({
   const safeGenre = (genre || "").trim();
   const safeAuthor = (author || "").trim();
 
-  // Strict query
   const strictParts = [];
   if (safeGenre) strictParts.push(`subject:"${safeGenre}"`);
   if (safeAuthor) strictParts.push(`inauthor:"${safeAuthor}"`);
@@ -75,7 +70,6 @@ export async function fetchBooks({
 
   let books = await callGoogleBooks({ q: strictQ, maxResults, startIndex, signal });
 
-  // Fallback query if nothing found
   if (books.length === 0) {
     const looseParts = [];
     if (safeGenre) looseParts.push(`"${safeGenre}"`);
@@ -85,11 +79,9 @@ export async function fetchBooks({
     books = await callGoogleBooks({ q: looseQ, maxResults, startIndex, signal });
   }
 
-  // Page filtering (best-effort; keep items with unknown pageCount)
   if (pagesMin != null) books = books.filter((b) => b.pageCount == null || b.pageCount >= pagesMin);
   if (pagesMax != null) books = books.filter((b) => b.pageCount == null || b.pageCount <= pagesMax);
 
-  // Prefer good data
   books.sort((a, b) => {
     const score = (x) => (x.coverUrl ? 2 : 0) + (x.description ? 2 : 0) + (x.pageCount ? 1 : 0);
     return score(b) - score(a);

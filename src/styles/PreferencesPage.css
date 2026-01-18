@@ -1,49 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:wght@300;400;700&display=swap');
 
-/* Füllt das Fenster & zentriert den Inhalt vertikal */
+
 .preferences-container {
   background-color: #758695;
   min-height: 100vh;
   padding: 0 8%;
   display: flex;
-  align-items: center;   /* vertikal zentriert */
-  justify-content: center; /* horizontal zentriert */
+  align-items: center;   
+  justify-content: center; 
   color: #EEEBD9;
 }
 
-/* Innerer Block – verhält sich wie der Textbereich auf der Landing Page */
 .preferences-inner {
   width: 100%;
-  max-width: 800px;      /* ähnlich der Textbreite auf der Home-Seite */
+  max-width: 800px;      
 }
 
-/* Überschrift oben */
 .preferences-title {
   font-family: 'Inknut Antiqua', serif;
   font-size: 48px;
   margin-bottom: 2.5rem;
 }
 
-/* Unterüberschriften („Pick one or more genres“, etc.) */
 .preferences-section h2 {
   font-family: 'Inknut Antiqua', serif;
   font-size: 32px;
   margin-bottom: 1.5rem;
 }
 
-/* Abschnitts-Abstände */
 .preferences-section {
   margin-bottom: 3rem;
 }
 
-/* Zeile für Optionen */
 .option-row {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
-/* Chips (Genre / Length) */
 .option-chip {
   padding: 0.6rem 1.4rem;
   border-radius: 999px;
@@ -59,7 +53,6 @@
   color: #758695;
 }
 
-/* Author Input */
 .author-input {
   width: 100%;
   max-width: 400px;
@@ -69,7 +62,6 @@
   font-size: 18px;
 }
 
-/* „Next“ / „Start swiping“ Button */
 .preferences-submit {
   font-family: 'Inknut Antiqua', serif;
   font-size: 28px;
