@@ -24,7 +24,6 @@ Dieses Projekt dient als Übung für Webentwicklung, Design und das Zusammenspie
 - **TailwindCSS** (optional – bitte bestätigen)
 - **API für Bücher** (falls du eine verwendest – sonst "Mock-Daten")
 
-> Wenn du magst, ergänze ich das exakt nach deinem Code.
 
 ---
 
@@ -53,3 +52,4 @@ npm install
 
 # Development Server starten
 npm run dev
+
