@@ -1,72 +1,32 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/SwipePage.css";
 
-const DEBUG_GB = false;
+const DEBUG = false;
 
 const BOOKS = [
   { id: 1, title: "Book One", claptext: "This is a short claptext about the book.", cover: "/assets/Book.png" },
-  { id: 2, title: "Book Two", claptext: "Another claptext describing the story.", cover: "/assets/Book.png" },
-  { id: 3, title: "Book Three", claptext: "More text…", cover: "/assets/Book.png" },
-  { id: 4, title: "Book Four", claptext: "More text…", cover: "/assets/Book.png" },
 ];
 
 const FALLBACK_COVER = "/assets/Book.png";
 const SWIPED_STORAGE_KEY = "tinderForBooks_swipedIds";
+const LIKED_BOOKS_KEY = "tinderForBooks_likedBooks";
+const READ_BOOKS_KEY = "tinderForBooks_readBooks";
 const PREFS_STORAGE_KEY = "tinderForBooks_preferences";
 
-const KEYWORD_GENRE_MAP = {
-  BookTok: "booktok",
-  "Dark Romance": "\"dark romance\"",
-  "New Adult": "\"new adult\"",
+// Genre zu NY Times Bestseller Listen Mapping
+const NYT_BESTSELLER_LISTS = {
+  Romance: "combined-print-and-e-book-fiction",
+  Fantasy: "combined-print-and-e-book-fiction",
+  Horror: "combined-print-and-e-book-fiction",
+  "Dark Romance": "combined-print-and-e-book-fiction",
+  "New Adult": "combined-print-and-e-book-fiction",
+  BookTok: "combined-print-and-e-book-fiction",
 };
 
 const debugLog = (...args) => {
-  if (DEBUG_GB) {
+  if (DEBUG) {
     console.log(...args);
   }
-};
-
-const redactKey = (urlString) => {
-  try {
-    const url = new URL(urlString);
-    if (url.searchParams.has("key")) {
-      url.searchParams.set("key", "REDACTED");
-    }
-    return url.toString();
-  } catch {
-    return urlString;
-  }
-};
-
-const buildQueryFromPrefs = (prefs) => {
-  const parts = [];
-
-  if (prefs?.genres?.length) {
-    const subjectQuery = prefs.genres
-      .map((genre) => {
-        const keyword = KEYWORD_GENRE_MAP[genre];
-        if (keyword) {
-          return `(subject:"${genre}" OR ${keyword})`;
-        }
-        return `subject:"${genre}"`;
-      })
-      .join(" OR ");
-    parts.push(`(${subjectQuery})`);
-  }
-
-  if (prefs?.author) {
-    parts.push(`inauthor:"${prefs.author}"`);
-  }
-
-  return parts.length ? parts.join(" ") : "fiction";
-};
-
-const buildFallbackQuery = (prefs) => {
-  const parts = ["(fiction OR novel OR romance OR fantasy OR horror)"];
-  if (prefs?.author) {
-    parts.push(`inauthor:"${prefs.author}"`);
-  }
-  return parts.join(" ");
 };
 
 const matchesLength = (pageCount, length) => {
@@ -78,16 +38,35 @@ const matchesLength = (pageCount, length) => {
   return true;
 };
 
-const normalizeVolume = (volume, index) => {
-  const info = volume.volumeInfo || {};
-  const thumbnail = info.imageLinks?.thumbnail;
-  const safeCover = thumbnail ? thumbnail.replace(/^http:/, "https:") : FALLBACK_COVER;
+const normalizeBook = (nytBook, googleBook = null) => {
+  const isbn = nytBook.primary_isbn13 || nytBook.primary_isbn10;
+  
+  // Verwende Google Books Daten wenn verfügbar, sonst NY Times
+  const cover = googleBook?.volumeInfo?.imageLinks?.thumbnail?.replace(/^http:/, "https:") || 
+                FALLBACK_COVER;
+  
+  const description = nytBook.description || 
+                     googleBook?.volumeInfo?.description || 
+                     "No description available.";
+  
+  const pageCount = googleBook?.volumeInfo?.pageCount || null;
+  
+  // Amazon Affiliate Link von NY Times
+  const amazonLink = nytBook.amazon_product_url || 
+                    (isbn ? `https://www.amazon.com/dp/${isbn}` : null);
+  
   return {
-    id: volume.id || `book-${index}`,
-    title: info.title || "Untitled",
-    claptext: info.description || info.subtitle || "No description available.",
-    cover: safeCover,
-    pageCount: info.pageCount || null,
+    id: `nyt-${isbn || nytBook.rank}`,
+    title: nytBook.title,
+    author: nytBook.author,
+    claptext: description,
+    cover: cover,
+    pageCount: pageCount,
+    isbn: isbn,
+    amazonLink: amazonLink,
+    rank: nytBook.rank,
+    weeksOnList: nytBook.weeks_on_list,
+    publisher: nytBook.publisher,
   };
 };
 
@@ -123,6 +102,7 @@ function Card({ book, variant, animClass, onDecide, interactive }) {
 
         <div className="claptext">
           <h2>{book.title}</h2>
+          {book.author && <p className="author">by {book.author}</p>}
           <p>{book.claptext}</p>
         </div>
 
@@ -131,7 +111,7 @@ function Card({ book, variant, animClass, onDecide, interactive }) {
             ❤
           </button>
           <button className="btn read" onClick={() => onDecide("read")} aria-label="Already read">
-            ✔
+            ✓
           </button>
           <button className="btn dislike" onClick={() => onDecide("dislike")} aria-label="Dislike">
             👎
@@ -157,62 +137,106 @@ export default function Swipe() {
     }
   });
   const [prefs, setPrefs] = useState(() => createPrefsSnapshot());
-
   const [outgoing, setOutgoing] = useState(null);
 
   const cleanupTimerRef = useRef(null);
-  const totalItemsRef = useRef(0);
-  const nextStartIndexRef = useRef(0);
   const inFlightRef = useRef(false);
-  const activeQueryRef = useRef("");
 
-  const fetchVolumes = async (query, startIndex) => {
-    const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
-    const url = new URL("https://www.googleapis.com/books/v1/volumes");
-    url.searchParams.set("q", query);
-    url.searchParams.set("maxResults", "40");
-    url.searchParams.set("orderBy", "relevance");
-    url.searchParams.set("startIndex", String(startIndex));
-    if (apiKey) url.searchParams.set("key", apiKey);
+  // NY Times Bestseller API
+  const fetchNYTimesBestsellers = async (listName = "combined-print-and-e-book-fiction") => {
+    const apiKey = import.meta.env.VITE_NYTIMES_API_KEY;
+    const url = new URL(`https://api.nytimes.com/svc/books/v3/lists/current/${listName}.json`);
+    
+    if (apiKey) {
+      url.searchParams.set("api-key", apiKey);
+    }
 
-    debugLog("[GB] request", redactKey(url.toString()));
-    const response = await fetch(url.toString());
-    const data = await response.json();
-    const items = Array.isArray(data.items) ? data.items : [];
-    debugLog("[GB] response", {
-      status: response.status,
-      totalItems: data.totalItems,
-      items: items.length,
-    });
-    return {
-      items,
-      totalItems: typeof data.totalItems === "number" ? data.totalItems : 0,
-    };
+    debugLog("[NYT] request", url.toString());
+    
+    try {
+      const response = await fetch(url.toString());
+      const data = await response.json();
+      
+      if (data.status === "OK" && data.results?.books) {
+        debugLog("[NYT] response", {
+          list: data.results.list_name,
+          books: data.results.books.length,
+        });
+        return data.results.books;
+      }
+      
+      return [];
+    } catch (error) {
+      console.error("[NYT] error:", error);
+      return [];
+    }
   };
 
-  const fetchBatches = async (query, batchCount, startIndex) => {
-    const requests = Array.from({ length: batchCount }, (_, i) => fetchVolumes(query, startIndex + i * 40));
-    const results = await Promise.all(requests);
-    const items = results.flatMap((result) => result.items);
-    const totalItems = results.reduce((max, result) => Math.max(max, result.totalItems), 0);
-    return { items, totalItems };
+  // Google Books API für zusätzliche Daten (Cover, Seitenzahl)
+  const fetchGoogleBookByISBN = async (isbn) => {
+    if (!isbn) return null;
+    
+    const apiKey = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
+    const url = new URL("https://www.googleapis.com/books/v1/volumes");
+    url.searchParams.set("q", `isbn:${isbn}`);
+    
+    if (apiKey) {
+      url.searchParams.set("key", apiKey);
+    }
+
+    try {
+      const response = await fetch(url.toString());
+      const data = await response.json();
+      
+      if (data.items && data.items.length > 0) {
+        return data.items[0];
+      }
+      
+      return null;
+    } catch (error) {
+      console.error("[GB] error:", error);
+      return null;
+    }
+  };
+
+  // Hole Google Books Daten für alle NY Times Bücher
+  const enrichBooksWithGoogleData = async (nytBooks) => {
+    const enrichedBooks = [];
+    
+    for (const nytBook of nytBooks) {
+      const isbn = nytBook.primary_isbn13 || nytBook.primary_isbn10;
+      const googleBook = await fetchGoogleBookByISBN(isbn);
+      const normalized = normalizeBook(nytBook, googleBook);
+      enrichedBooks.push(normalized);
+      
+      // Kleine Pause um API Rate Limits zu vermeiden
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    
+    return enrichedBooks;
   };
 
   const prepareBooks = (items, lengthPref, swipedSet) => {
-    const normalized = items.map(normalizeVolume);
-    const missingPageCount = normalized.filter((book) => !book.pageCount).length;
-    const lengthFiltered = normalized.filter((book) => matchesLength(book.pageCount, lengthPref));
-    const basePool = lengthFiltered.length ? lengthFiltered : normalized;
+    // Filtere nach Seitenzahl wenn Präferenz gesetzt ist
+    let lengthFiltered = items;
+    if (lengthPref) {
+      lengthFiltered = items.filter((book) => {
+        if (!book.pageCount) return true; // Behalte Bücher ohne Seitenangabe
+        return matchesLength(book.pageCount, lengthPref);
+      });
+    }
+    
+    const basePool = lengthFiltered.length > 0 ? lengthFiltered : items;
     const swipedFiltered = basePool.filter((book) => !swipedSet.has(book.id));
-    debugLog("[GB] counts", {
-      normalized: normalized.length,
+    
+    debugLog("[PREP] counts", {
+      total: items.length,
       lengthFiltered: lengthFiltered.length,
       swipedFiltered: swipedFiltered.length,
-      missingPageCount,
-      swipedIds: swipedSet.size,
     });
+    
     return {
-      normalized,
+      normalized: items,
       swipedFiltered,
     };
   };
@@ -228,50 +252,36 @@ export default function Swipe() {
   }, []);
 
   useEffect(() => {
-    if (DEBUG_GB) {
-      window.__t4bClearSwipes = () => {
-        localStorage.removeItem(SWIPED_STORAGE_KEY);
-        console.log("[GB] cleared swiped ids");
-      };
-      return () => {
-        delete window.__t4bClearSwipes;
-      };
-    }
-  }, []);
-
-  useEffect(() => {
     let cancelled = false;
 
-    const loadInitialPool = async () => {
+    const loadBestsellers = async () => {
       inFlightRef.current = true;
-      totalItemsRef.current = 0;
-      nextStartIndexRef.current = 0;
 
-      const initialQuery = buildQueryFromPrefs(prefs);
-      activeQueryRef.current = initialQuery;
-      debugLog("[GB] query", initialQuery);
+      // Hole die richtige Bestseller-Liste basierend auf Genre
+      const genre = prefs?.genres?.[0] || "Romance";
+      const listName = NYT_BESTSELLER_LISTS[genre] || "combined-print-and-e-book-fiction";
+      
+      debugLog("[INIT] Loading bestsellers for:", genre, listName);
 
-      const initialBatchCount = 5;
-      const { items, totalItems } = await fetchBatches(initialQuery, initialBatchCount, 0);
+      // 1. Hole NY Times Bestseller
+      const nytBooks = await fetchNYTimesBestsellers(listName);
+      
       if (cancelled) return;
-
-      totalItemsRef.current = totalItems;
-      nextStartIndexRef.current = initialBatchCount * 40;
-
-      let workingItems = items;
-
-      if (totalItems > 0 && totalItems < 10) {
-        const fallbackQuery = buildFallbackQuery(prefs);
-        debugLog("[GB] fallback query", fallbackQuery);
-        const fallbackResult = await fetchBatches(fallbackQuery, initialBatchCount, 0);
-        if (cancelled) return;
-        activeQueryRef.current = fallbackQuery;
-        totalItemsRef.current = fallbackResult.totalItems;
-        nextStartIndexRef.current = initialBatchCount * 40;
-        workingItems = fallbackResult.items;
+      
+      if (nytBooks.length === 0) {
+        console.error("No bestsellers found");
+        setBooks(BOOKS);
+        inFlightRef.current = false;
+        return;
       }
 
-      const { normalized, swipedFiltered } = prepareBooks(workingItems, prefs?.length, swipedIds);
+      // 2. Erweitere mit Google Books Daten
+      const enrichedBooks = await enrichBooksWithGoogleData(nytBooks);
+      
+      if (cancelled) return;
+
+      // 3. Filtere basierend auf Präferenzen
+      const { normalized, swipedFiltered } = prepareBooks(enrichedBooks, prefs?.length, swipedIds);
       const hasSwipedFiltered = swipedFiltered.length > 0;
       const nextBooks = hasSwipedFiltered ? swipedFiltered : normalized;
       const deduped = dedupeById(nextBooks);
@@ -285,7 +295,8 @@ export default function Swipe() {
       inFlightRef.current = false;
     };
 
-    loadInitialPool().catch(() => {
+    loadBestsellers().catch((error) => {
+      console.error("Error loading bestsellers:", error);
       inFlightRef.current = false;
     });
 
@@ -294,51 +305,17 @@ export default function Swipe() {
     };
   }, [prefs]);
 
-  useEffect(() => {
-    const maybeRefill = async () => {
-      if (!prefs) return;
-      if (inFlightRef.current) return;
-      if (!activeQueryRef.current) return;
-
-      const remaining = books.filter((book) => !swipedIds.has(book.id));
-      if (remaining.length >= 30) return;
-
-      if (totalItemsRef.current && nextStartIndexRef.current >= totalItemsRef.current) return;
-
-      inFlightRef.current = true;
-      const batchCount = 3;
-      const startIndex = nextStartIndexRef.current;
-      const { items, totalItems } = await fetchBatches(activeQueryRef.current, batchCount, startIndex);
-
-      totalItemsRef.current = Math.max(totalItemsRef.current, totalItems);
-      nextStartIndexRef.current += batchCount * 40;
-
-      const { normalized, swipedFiltered } = prepareBooks(items, prefs?.length, swipedIds);
-      const hasSwipedFiltered = swipedFiltered.length > 0;
-      const incoming = hasSwipedFiltered ? swipedFiltered : normalized;
-      const dedupedIncoming = dedupeById(incoming);
-
-      if (!hasSwipedFiltered && remaining.length === 0 && normalized.length) {
-        setFilterSwiped(false);
-      }
-      setBooks((prev) => dedupeById([...prev, ...dedupedIncoming]));
-      inFlightRef.current = false;
-    };
-
-    maybeRefill().catch(() => {
-      inFlightRef.current = false;
-    });
-  }, [books, prefs, swipedIds]);
-
   const activeBooks = books.length ? books : BOOKS;
   const remainingBooks = useMemo(() => {
     if (!filterSwiped) return activeBooks;
     return activeBooks.filter((book) => !swipedIds.has(book.id));
   }, [activeBooks, filterSwiped, swipedIds]);
+  
   const topBook = useMemo(
     () => (remainingBooks.length ? remainingBooks[index % remainingBooks.length] : null),
     [remainingBooks, index]
   );
+  
   const nextBook = useMemo(
     () => (remainingBooks.length ? remainingBooks[(index + 1) % remainingBooks.length] : null),
     [remainingBooks, index]
@@ -372,8 +349,41 @@ export default function Swipe() {
     setLocked(true);
 
     const dir = type === "like" ? "right" : type === "dislike" ? "left" : "down";
-
     setOutgoing({ book: topBook, dir, phase: "start" });
+
+    if (type === "like") {
+      const likedRaw = localStorage.getItem(LIKED_BOOKS_KEY);
+      let likedBooks = [];
+      try {
+        likedBooks = likedRaw ? JSON.parse(likedRaw) : [];
+      } catch (error) {
+        console.error("Error loading liked books:", error);
+        likedBooks = [];
+      }
+      
+      const alreadyLiked = likedBooks.some(book => book.id === topBook.id);
+      if (!alreadyLiked) {
+        likedBooks.push(topBook);
+        localStorage.setItem(LIKED_BOOKS_KEY, JSON.stringify(likedBooks));
+      }
+    }
+
+    if (type === "read") {
+      const readRaw = localStorage.getItem(READ_BOOKS_KEY);
+      let readBooks = [];
+      try {
+        readBooks = readRaw ? JSON.parse(readRaw) : [];
+      } catch (error) {
+        console.error("Error loading read books:", error);
+        readBooks = [];
+      }
+      
+      const alreadyRead = readBooks.some(book => book.id === topBook.id);
+      if (!alreadyRead) {
+        readBooks.push(topBook);
+        localStorage.setItem(READ_BOOKS_KEY, JSON.stringify(readBooks));
+      }
+    }
 
     setSwipedIds((prev) => {
       const next = new Set(prev);

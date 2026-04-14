@@ -11,7 +11,6 @@
   text-align: center;
 }
 
-
 .landing-title {
   font-family: 'Inknut Antiqua', serif;
   font-size: 96px;
@@ -20,7 +19,6 @@
   line-height: 2.5; 
   margin-bottom: 10rem; 
 }
-
 
 .landing-button {
   font-family: 'Inknut Antiqua', serif;
@@ -31,10 +29,22 @@
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  margin-bottom: 6rem; 
+  margin-bottom: 6rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.landing-button:hover {
+  transform: scale(1.08);
+  background-color: #FEFDFB;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
 
+.landing-button:active {
+  transform: scale(1.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.1s;
+}
 
 .section {
   width: 60%;        
@@ -44,8 +54,6 @@
   margin-left: 5rem;
 }
 
-
-
 .section h2 {
   font-family: 'Inknut Antiqua', serif;
   font-size: 48px;      
@@ -53,7 +61,6 @@
   margin-bottom: 1.5rem;
   text-align: left;
 }
-
 
 .section p {
   font-family: 'Inria Sans', sans-serif;

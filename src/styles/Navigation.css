@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:wght@300;400;700&display=swap');
+
+.navbar {
+  background-color: #5a6c7d;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-family: 'Inknut Antiqua', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #EEEBD9;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.navbar-logo:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-item {
+  margin: 0;
+}
+
+.navbar-link {
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 18px;
+  color: #EEEBD9;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+  display: block;
+}
+
+.navbar-link:hover {
+  background-color: rgba(238, 235, 217, 0.1);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.navbar-link.active {
+  background-color: #EEEBD9;
+  color: #758695;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navbar-menu {
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .navbar-link {
+    font-size: 16px;
+    padding: 0.4rem 0.8rem;
+  }
+}
