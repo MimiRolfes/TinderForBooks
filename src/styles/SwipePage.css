@@ -136,3 +136,10 @@
     gap: 24px;
   }
 }
+.claptext .author {
+  font-family: "Inria Sans", sans-serif;
+  font-size: 16px;
+  color: #666;
+  font-style: italic;
+  margin: 0 0 12px;
+}

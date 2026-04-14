@@ -1,35 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:wght@300;400;700&display=swap');
 
-
 .preferences-container {
   background-color: #758695;
   min-height: 100vh;
-  padding: 0 8%;
+  padding: 3rem 8%;
   display: flex;
-  align-items: center;   
+  align-items: flex-start;   
   justify-content: center; 
   color: #EEEBD9;
 }
 
 .preferences-inner {
   width: 100%;
-  max-width: 800px;      
+  max-width: 900px;      
 }
 
 .preferences-title {
   font-family: 'Inknut Antiqua', serif;
   font-size: 48px;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.preferences-section {
+  margin-bottom: 3.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(238, 235, 217, 0.2);
+}
+
+.preferences-section:last-of-type {
+  border-bottom: none;
 }
 
 .preferences-section h2 {
   font-family: 'Inknut Antiqua', serif;
-  font-size: 32px;
-  margin-bottom: 1.5rem;
+  font-size: 28px;
+  margin-bottom: 0.5rem;
 }
 
-.preferences-section {
-  margin-bottom: 3rem;
+.section-description {
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 18px;
+  color: rgba(238, 235, 217, 0.8);
+  margin-bottom: 1.5rem;
 }
 
 .option-row {
@@ -46,20 +59,44 @@
   color: #EEEBD9;
   cursor: pointer;
   font-size: 18px;
+  font-family: 'Inria Sans', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.option-chip:hover {
+  background: rgba(238, 235, 217, 0.1);
+  transform: translateY(-2px);
 }
 
 .option-chip.selected {
   background: #EEEBD9;
   color: #758695;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .author-input {
   width: 100%;
-  max-width: 400px;
-  padding: 0.6rem 0.8rem;
+  max-width: 500px;
+  padding: 0.8rem 1rem;
   border-radius: 8px;
-  border: none;
+  border: 2px solid #EEEBD9;
+  background: rgba(238, 235, 217, 0.1);
+  color: #EEEBD9;
   font-size: 18px;
+  font-family: 'Inria Sans', sans-serif;
+  transition: all 0.3s;
+}
+
+.author-input::placeholder {
+  color: rgba(238, 235, 217, 0.5);
+}
+
+.author-input:focus {
+  outline: none;
+  background: rgba(238, 235, 217, 0.15);
+  border-color: #f2eddc;
+  box-shadow: 0 0 0 3px rgba(238, 235, 217, 0.2);
 }
 
 .preferences-submit {
@@ -67,14 +104,54 @@
   font-size: 28px;
   background-color: #EEEBD9;
   color: #758695;
-  padding: 10px 34px;
+  padding: 12px 40px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
   margin-top: 2rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.preferences-submit:hover:not(:disabled) {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  background-color: #f2eddc;
+}
+
+.preferences-submit:active:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
 }
 
 .preferences-submit:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .preferences-container {
+    padding: 2rem 5%;
+  }
+
+  .preferences-title {
+    font-size: 36px;
+  }
+
+  .preferences-section h2 {
+    font-size: 24px;
+  }
+
+  .option-chip {
+    font-size: 16px;
+    padding: 0.5rem 1.2rem;
+  }
+
+  .preferences-submit {
+    font-size: 24px;
+    padding: 10px 32px;
+  }
 }
