@@ -1,29 +1,25 @@
 import { useState, useEffect } from "react";
 import "../styles/Wishlist.css";
-
-const LIKED_BOOKS_KEY = "tinderForBooks_likedBooks";
+import {
+  STORAGE_KEYS,
+  getLikedBooks,
+  setLikedBooks as saveLikedBooks,
+  clearLikedBooks,
+} from "../services/storageService";
 
 function Wishlist() {
   const [likedBooks, setLikedBooks] = useState([]);
 
   useEffect(() => {
     const loadLikedBooks = () => {
-      const raw = localStorage.getItem(LIKED_BOOKS_KEY);
-      if (!raw) return;
-      try {
-        const books = JSON.parse(raw);
-        setLikedBooks(Array.isArray(books) ? books : []);
-      } catch (error) {
-        console.error("Error loading liked books:", error);
-        setLikedBooks([]);
-      }
+      setLikedBooks(getLikedBooks());
     };
 
     loadLikedBooks();
 
     // Storage event listener für Updates von anderen Tabs
     const handleStorageChange = (e) => {
-      if (e.key === LIKED_BOOKS_KEY) {
+      if (e.key === STORAGE_KEYS.LIKED_BOOKS) {
         loadLikedBooks();
       }
     };
@@ -35,13 +31,13 @@ function Wishlist() {
   const removeFromWishlist = (bookId) => {
     const updated = likedBooks.filter((book) => book.id !== bookId);
     setLikedBooks(updated);
-    localStorage.setItem(LIKED_BOOKS_KEY, JSON.stringify(updated));
+    saveLikedBooks(updated);
   };
 
   const clearWishlist = () => {
     if (window.confirm("Möchtest du wirklich alle Bücher aus deiner Wishlist entfernen?")) {
       setLikedBooks([]);
-      localStorage.removeItem(LIKED_BOOKS_KEY);
+      clearLikedBooks();
     }
   };
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./../styles/PreferencesPage.css";
+import { usePreferences } from "../hooks/usePreferences";
 
 const GENRES = ["New Adult", "Horror", "Fantasy", "Dark Romance", "BookTok", "Romance"];
 const LENGTHS = ["<100", "100-300", "300-500", ">500"];
@@ -16,6 +17,7 @@ function Preferences() {
   const [author, setAuthor] = useState("");
 
   const navigate = useNavigate();
+  const { savePreferences } = usePreferences();
 
   const toggleGenre = (genre) => {
     setSelectedGenres((prev) =>
@@ -23,34 +25,13 @@ function Preferences() {
     );
   };
 
-  const lengthToPages = (len) => {
-    if (len === "<100") return { pagesMin: null, pagesMax: 99 };
-    if (len === "100-300") return { pagesMin: 100, pagesMax: 300 };
-    if (len === "300-500") return { pagesMin: 300, pagesMax: 500 };
-    if (len === ">500") return { pagesMin: 501, pagesMax: null };
-    return { pagesMin: null, pagesMax: null };
-  };
-
   const handleFinish = () => {
-    const prefsLegacy = {
+    savePreferences({
       genres: selectedGenres,
       length: selectedLength,
       language: selectedLanguage,
       author: author.trim(),
-    };
-    sessionStorage.setItem("tinderForBooks_preferences", JSON.stringify(prefsLegacy));
-
-    const { pagesMin, pagesMax } = lengthToPages(selectedLength);
-
-    const prefsForSwipe = {
-      genre: selectedGenres[0] || "", 
-      author: author.trim(),
-      language: selectedLanguage,
-      pagesMin,
-      pagesMax,
-    };
-
-    sessionStorage.setItem("t4b_prefs", JSON.stringify(prefsForSwipe));
+    });
 
     navigate("/swipe");
   };

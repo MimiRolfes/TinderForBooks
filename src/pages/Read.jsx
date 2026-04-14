@@ -1,29 +1,25 @@
 import { useState, useEffect } from "react";
 import "../styles/Read.css";
-
-const READ_BOOKS_KEY = "tinderForBooks_readBooks";
+import {
+  STORAGE_KEYS,
+  getReadBooks,
+  setReadBooks as saveReadBooks,
+  clearReadBooks,
+} from "../services/storageService";
 
 function Read() {
   const [readBooks, setReadBooks] = useState([]);
 
   useEffect(() => {
     const loadReadBooks = () => {
-      const raw = localStorage.getItem(READ_BOOKS_KEY);
-      if (!raw) return;
-      try {
-        const books = JSON.parse(raw);
-        setReadBooks(Array.isArray(books) ? books : []);
-      } catch (error) {
-        console.error("Error loading read books:", error);
-        setReadBooks([]);
-      }
+      setReadBooks(getReadBooks());
     };
 
     loadReadBooks();
 
     // Storage event listener für Updates von anderen Tabs
     const handleStorageChange = (e) => {
-      if (e.key === READ_BOOKS_KEY) {
+      if (e.key === STORAGE_KEYS.READ_BOOKS) {
         loadReadBooks();
       }
     };
@@ -35,13 +31,13 @@ function Read() {
   const removeFromRead = (bookId) => {
     const updated = readBooks.filter((book) => book.id !== bookId);
     setReadBooks(updated);
-    localStorage.setItem(READ_BOOKS_KEY, JSON.stringify(updated));
+    saveReadBooks(updated);
   };
 
   const clearRead = () => {
     if (window.confirm("Möchtest du wirklich alle Bücher aus deiner 'Already Read' Liste entfernen?")) {
       setReadBooks([]);
-      localStorage.removeItem(READ_BOOKS_KEY);
+      clearReadBooks();
     }
   };
 
