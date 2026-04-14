@@ -3,8 +3,7 @@ export const STORAGE_KEYS = {
   SWIPED_IDS:   "tinderForBooks_swipedIds",
   LIKED_BOOKS:  "tinderForBooks_likedBooks",
   READ_BOOKS:   "tinderForBooks_readBooks",
-  PREFS_LEGACY: "tinderForBooks_preferences", // { genres, length, language, author }
-  PREFS_SWIPE:  "t4b_prefs",                  // { genre, author, language, pagesMin, pagesMax }
+  PREFS_LEGACY: "tinderForBooks_preferences", // unified: { genres, length, language, author, pagesMin, pagesMax }
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -70,17 +69,13 @@ export const clearReadBooks = () => {
 };
 
 // ─── Preferences ─────────────────────────────────────────────────────────────
-// Liest das Legacy-Format, das Swipe.jsx aktuell erwartet: { genres, length, language, author }
+// Liest das unified Format: { genres, length, language, author, pagesMin, pagesMax }
 export const getPreferences = () => {
   const raw = sessionStorage.getItem(STORAGE_KEYS.PREFS_LEGACY);
   return parseJSON(raw, null);
 };
 
-// Schreibt beide Formate rückwärtskompatibel
-export const setPreferences = ({ genres, length, language, author, pagesMin, pagesMax }) => {
-  const legacy = { genres, length, language, author };
-  sessionStorage.setItem(STORAGE_KEYS.PREFS_LEGACY, JSON.stringify(legacy));
-
-  const forSwipe = { genre: genres?.[0] ?? "", author, language, pagesMin, pagesMax };
-  sessionStorage.setItem(STORAGE_KEYS.PREFS_SWIPE, JSON.stringify(forSwipe));
+// Schreibt das unified Format in einen einzigen Key
+export const setPreferences = (unified) => {
+  sessionStorage.setItem(STORAGE_KEYS.PREFS_LEGACY, JSON.stringify(unified));
 };
