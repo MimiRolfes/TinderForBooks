@@ -1,4 +1,4 @@
-import { supabase } from './services/supabaseClient'
+import { supabase } from './services/supabaseClient';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Home from "./pages/Home.jsx";
@@ -8,7 +8,6 @@ import Wishlist from "./pages/Wishlist";
 import Read from "./pages/Read";
 
 function App() {
-  console.log('Supabase client:', supabase)
   return (
     <Router>
       <Navigation />

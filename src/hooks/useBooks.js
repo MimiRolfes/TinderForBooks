@@ -9,7 +9,10 @@ const debugLog = (...args) => {
 };
 
 const FALLBACK_BOOKS = [
-  { id: 1, title: "Book One", claptext: "This is a short claptext about the book.", cover: "/assets/Book.png" },
+  { id: 1, title: "Book One", author: "Author A", claptext: "Nice book", cover: "/assets/Book.png" },
+  { id: 2, title: "Book Two", author: "Author B", claptext: "Another book", cover: "/assets/Book.png" },
+  { id: 3, title: "Book Three", author: "Author C", claptext: "Good read", cover: "/assets/Book.png" },
+  { id: 4, title: "Book Four", author: "Author D", claptext: "Interesting", cover: "/assets/Book.png" },
 ];
 
 const matchesLength = (pageCount, length) => {

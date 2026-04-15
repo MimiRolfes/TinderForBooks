@@ -1,3 +1,5 @@
+import { removeLikedBookFromSupabase } from "../services/supabaseClient";
+import { getLikedBooksFromSupabase } from "../services/supabaseClient";
 import { useState, useEffect } from "react";
 import "../styles/Wishlist.css";
 import {
@@ -11,8 +13,10 @@ function Wishlist() {
   const [likedBooks, setLikedBooks] = useState([]);
 
   useEffect(() => {
-    const loadLikedBooks = () => {
-      setLikedBooks(getLikedBooks());
+    const loadLikedBooks = async () => {
+      const data = await getLikedBooksFromSupabase();
+      console.log("WISHLIST DATA:", data);
+       setLikedBooks(data);
     };
 
     loadLikedBooks();
@@ -28,11 +32,14 @@ function Wishlist() {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  const removeFromWishlist = (bookId) => {
-    const updated = likedBooks.filter((book) => book.id !== bookId);
-    setLikedBooks(updated);
-    saveLikedBooks(updated);
-  };
+  const removeFromWishlist = async (bookId) => {
+  const success = await removeLikedBookFromSupabase(bookId);
+
+  if (!success) return;
+
+  const updated = likedBooks.filter((book) => book.id !== bookId);
+  setLikedBooks(updated);
+};
 
   const clearWishlist = () => {
     if (window.confirm("Möchtest du wirklich alle Bücher aus deiner Wishlist entfernen?")) {
@@ -73,9 +80,11 @@ function Wishlist() {
                 <h3 className="book-title">{book.title}</h3>
                 {book.author && <p className="book-author">by {book.author}</p>}
                 <p className="book-description">
-                  {book.claptext.length > 150 
-                    ? `${book.claptext.substring(0, 150)}...` 
-                    : book.claptext}
+                  {book.claptext
+                 ? (book.claptext.length > 150
+                 ? `${book.claptext.substring(0, 150)}...`
+                     : book.claptext)
+                  : "No description available"}
                 </p>
                 
                 {book.amazonLink && (

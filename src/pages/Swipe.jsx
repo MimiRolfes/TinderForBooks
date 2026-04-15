@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/SwipePage.css";
 import { getSwipedIds, setSwipedIds, addLikedBook, addReadBook } from "../services/storageService";
 import { useBooks } from "../hooks/useBooks";
+import { saveLikedBook } from "../services/supabaseClient";
 
 function Card({ book, variant, animClass, onDecide, interactive }) {
   return (
@@ -90,6 +91,7 @@ export default function Swipe() {
 
     if (type === "like") {
       addLikedBook(topBook);
+      saveLikedBook(topBook);
     }
 
     if (type === "read") {
