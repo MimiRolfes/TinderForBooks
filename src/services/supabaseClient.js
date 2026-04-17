@@ -11,10 +11,13 @@ export const saveLikedBook = async (book) => {
   const { data, error } = await supabase
     .from("liked_Books")
     .insert([
-  {
-    title: book.title,
-    author: book.author,
-  },
+ {
+  title: book.title,
+  author: book.author,
+  cover: book.cover || null,
+  claptext: book.claptext || null,
+  amazonLink: book.amazonLink || null,
+}
 ])
 .select();
 
