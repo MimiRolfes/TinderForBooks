@@ -1,157 +1,209 @@
-@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:wght@300;400;700&display=swap');
+/* ─── Preferences — Warm Pages ────────────────────────────────────────────── */
 
 .preferences-container {
-  background-color: #758695;
+  background-color: var(--color-bg, #758695);
   min-height: 100vh;
-  padding: 3rem 8%;
+  padding: 2.5rem 1.5rem calc(var(--bottom-nav-height, 64px) + 2rem);
   display: flex;
-  align-items: flex-start;   
-  justify-content: center; 
+  justify-content: center;
   color: #EEEBD9;
 }
 
 .preferences-inner {
   width: 100%;
-  max-width: 900px;      
+  max-width: 460px;
 }
 
+/* ── Title ── */
 .preferences-title {
   font-family: 'Inknut Antiqua', serif;
-  font-size: 48px;
-  margin-bottom: 3rem;
-  text-align: center;
+  font-size: 1.65rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+  color: #EEEBD9;
+  line-height: 1.25;
+  text-shadow: 0 2px 16px rgba(40, 25, 10, 0.15);
 }
 
+/* Subtle eyebrow accent under the title */
+.preferences-title::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 2px;
+  background: rgba(238, 235, 217, 0.35);
+  border-radius: 2px;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* ── Sections ── */
 .preferences-section {
-  margin-bottom: 3.5rem;
+  margin-bottom: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(238, 235, 217, 0.2);
+  border-bottom: 1px solid rgba(238, 235, 217, 0.12);
 }
 
 .preferences-section:last-of-type {
   border-bottom: none;
+  margin-bottom: 0;
 }
 
 .preferences-section h2 {
   font-family: 'Inknut Antiqua', serif;
-  font-size: 28px;
-  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  color: #EEEBD9;
+  letter-spacing: 0.01em;
 }
 
 .section-description {
   font-family: 'Inria Sans', sans-serif;
-  font-size: 18px;
-  color: rgba(238, 235, 217, 0.8);
-  margin-bottom: 1.5rem;
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: rgba(238, 235, 217, 0.62);
+  margin: 0 0 1rem;
+  line-height: 1.5;
 }
 
+/* ── Option chips ── */
 .option-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.55rem;
 }
 
 .option-chip {
-  padding: 0.6rem 1.4rem;
+  min-height: 42px;
+  padding: 0 1.1rem;
   border-radius: 999px;
-  border: 2px solid #EEEBD9;
-  background: transparent;
-  color: #EEEBD9;
+  border: 1.5px solid rgba(238, 235, 217, 0.35);
+  background: rgba(238, 235, 217, 0.07);
+  color: rgba(238, 235, 217, 0.85);
   cursor: pointer;
-  font-size: 18px;
+  font-size: 0.85rem;
   font-family: 'Inria Sans', sans-serif;
-  transition: all 0.3s ease;
+  font-weight: 400;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
 }
 
-.option-chip:hover {
-  background: rgba(238, 235, 217, 0.1);
-  transform: translateY(-2px);
+.option-chip:active {
+  transform: scale(0.95);
 }
 
+/* Selected: warm cream fill — like a physical tag */
 .option-chip.selected {
-  background: #EEEBD9;
-  color: #758695;
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: var(--card-bg, #FDFAF2);
+  border-color: var(--card-bg, #FDFAF2);
+  color: var(--card-text, #1C1610);
+  font-family: 'Inknut Antiqua', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(40, 25, 10, 0.14);
 }
 
+/* ── Author input ── */
 .author-input {
   width: 100%;
-  max-width: 500px;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  border: 2px solid #EEEBD9;
-  background: rgba(238, 235, 217, 0.1);
+  padding: 0.8rem 1.1rem;
+  border-radius: 14px;
+  border: 1.5px solid rgba(238, 235, 217, 0.28);
+  background: rgba(238, 235, 217, 0.08);
   color: #EEEBD9;
-  font-size: 18px;
+  font-size: 0.9rem;
   font-family: 'Inria Sans', sans-serif;
-  transition: all 0.3s;
+  font-weight: 300;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
 }
 
 .author-input::placeholder {
-  color: rgba(238, 235, 217, 0.5);
+  color: rgba(238, 235, 217, 0.35);
 }
 
 .author-input:focus {
   outline: none;
-  background: rgba(238, 235, 217, 0.15);
-  border-color: #f2eddc;
-  box-shadow: 0 0 0 3px rgba(238, 235, 217, 0.2);
+  background: rgba(238, 235, 217, 0.12);
+  border-color: rgba(238, 235, 217, 0.6);
+  box-shadow: 0 0 0 3px rgba(238, 235, 217, 0.1);
 }
 
+/* ── Submit button ── */
 .preferences-submit {
   font-family: 'Inknut Antiqua', serif;
-  font-size: 28px;
-  background-color: #EEEBD9;
-  color: #758695;
-  padding: 12px 40px;
+  font-size: 1rem;
+  background: var(--card-bg, #FDFAF2);
+  color: #5a6c7d;
+  padding: 0.9rem 2rem;
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  margin-top: 2rem;
+  margin: 2.25rem auto 0;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 260px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease,
+              background 0.2s ease;
+  box-shadow:
+    0 4px 14px rgba(40, 25, 10, 0.18),
+    0 1px 3px  rgba(40, 25, 10, 0.1);
 }
 
 .preferences-submit:hover:not(:disabled) {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  background-color: #f2eddc;
+  transform: translateY(-2px) scale(1.03);
+  background: #F7F4E8;
+  box-shadow:
+    0 8px 26px rgba(40, 25, 10, 0.22),
+    0 2px 6px  rgba(40, 25, 10, 0.1);
 }
 
 .preferences-submit:active:not(:disabled) {
-  transform: translateY(-2px) scale(1.02);
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(40, 25, 10, 0.14);
+  transition: transform 0.08s, box-shadow 0.08s;
 }
 
 .preferences-submit:disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
-  transform: none;
+  box-shadow: none;
 }
 
-@media (max-width: 768px) {
+/* ─── Desktop (≥ 768px) ───────────────────────────────────────────────────── */
+
+@media (min-width: 768px) {
   .preferences-container {
-    padding: 2rem 5%;
+    padding: 3.5rem 2rem 5rem;
   }
 
-  .preferences-title {
-    font-size: 36px;
-  }
+  .preferences-inner { max-width: 580px; }
 
-  .preferences-section h2 {
-    font-size: 24px;
-  }
+  .preferences-title { font-size: 2.1rem; }
+
+  .preferences-section h2 { font-size: 1.05rem; }
+
+  .section-description { font-size: 0.9rem; }
 
   .option-chip {
-    font-size: 16px;
-    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    min-height: 40px;
+  }
+
+  .option-chip.selected { font-size: 0.88rem; }
+
+  .option-chip:hover:not(.selected) {
+    background: rgba(238, 235, 217, 0.13);
+    border-color: rgba(238, 235, 217, 0.5);
+    color: #EEEBD9;
   }
 
   .preferences-submit {
-    font-size: 24px;
-    padding: 10px 32px;
+    font-size: 1.05rem;
+    max-width: 290px;
   }
 }

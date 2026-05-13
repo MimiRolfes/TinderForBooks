@@ -1,33 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:wght@300;400;700&display=swap');
 
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+  overflow-x: hidden;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
 }
 
 body {
   font-family: 'Inria Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #758695;
+  color: #EEEBD9;
+  min-height: 100%;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  /* ── Layout ── */
+  --bottom-nav-height: 64px;
+
+  /* ── Brand palette ── */
+  --color-bg:          #758695;
+  --color-accent:      #EEEBD9;
+  --color-accent-dim:  rgba(238, 235, 217, 0.65);
+
+  /* ── Warm card palette ── */
+  --card-bg:            #FDFAF2;   /* warm off-white, not sterile white */
+  --card-bg-alt:        #F5F1E4;   /* slightly deeper warm for read list */
+  --card-text:          #1C1610;   /* warm near-black */
+  --card-text-secondary:#7A6A58;   /* warm mid-gray */
+  --card-text-muted:    #A8957E;   /* warm light-gray */
+
+  /* ── Warm shadows (amber-tinted, not cold black) ── */
+  --shadow-sm:  0 2px 10px rgba(40, 25, 10, 0.08);
+  --shadow-md:  0 6px 24px rgba(40, 25, 10, 0.13);
+  --shadow-lg:  0 14px 44px rgba(40, 25, 10, 0.16);
+  --shadow-card:
+    0 1px 3px  rgba(40, 25, 10, 0.06),
+    0 6px 18px rgba(40, 25, 10, 0.11),
+    0 20px 40px rgba(40, 25, 10, 0.09);
+
+  /* ── Radii ── */
+  --radius-card:   26px;
+  --radius-chip:   999px;
+  --radius-btn:    14px;
 }
 
 a {
   color: inherit;
   text-decoration: none;
 }
-a:hover {
-  text-decoration: underline;
-}
+a:hover { text-decoration: none; }
 
-button {
-  font-family: inherit;
+button { font-family: inherit; }
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

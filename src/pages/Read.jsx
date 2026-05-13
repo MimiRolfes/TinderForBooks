@@ -6,9 +6,11 @@ import {
   setReadBooks as saveReadBooks,
   clearReadBooks,
 } from "../services/storageService";
+import { useLanguage } from "../contexts/LanguageContext";
 
 function Read() {
   const [readBooks, setReadBooks] = useState([]);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const loadReadBooks = () => {
@@ -17,7 +19,6 @@ function Read() {
 
     loadReadBooks();
 
-    // Storage event listener für Updates von anderen Tabs
     const handleStorageChange = (e) => {
       if (e.key === STORAGE_KEYS.READ_BOOKS) {
         loadReadBooks();
@@ -35,53 +36,60 @@ function Read() {
   };
 
   const clearRead = () => {
-    if (window.confirm("Möchtest du wirklich alle Bücher aus deiner 'Already Read' Liste entfernen?")) {
+    if (window.confirm(t("read.confirmClear"))) {
       setReadBooks([]);
       clearReadBooks();
     }
   };
 
+  const countLabel =
+    readBooks.length === 1
+      ? t("read.countSingular")
+      : t("read.countPlural").replace("{n}", readBooks.length);
+
   return (
     <div className="read-container">
       <div className="read-header">
-        <h1 className="read-title">Already Read</h1>
+        <h1 className="read-title">{t("read.title")}</h1>
         {readBooks.length > 0 && (
           <button className="clear-button" onClick={clearRead}>
-            Clear All
+            {t("read.clearAll")}
           </button>
         )}
       </div>
 
       {readBooks.length === 0 ? (
         <div className="empty-state">
-          <p className="empty-message">You haven't marked any books as read yet.</p>
-          <p className="empty-hint">Swipe down on books you've already read to add them here!</p>
+          <p className="empty-message">{t("read.empty")}</p>
+          <p className="empty-hint">{t("read.emptyHint")}</p>
         </div>
       ) : (
         <div className="books-grid">
           {readBooks.map((book) => (
             <div key={book.id} className="book-card">
               <div className="book-cover-container">
-                <img 
-                  src={book.cover} 
-                  alt={book.title} 
+                <img
+                  src={book.cover}
+                  alt={book.title}
                   className="book-cover-img"
                 />
               </div>
-              
+
               <div className="book-info">
                 <h3 className="book-title">{book.title}</h3>
                 <p className="book-description">
-                  {book.claptext.length > 150 
-                    ? `${book.claptext.substring(0, 150)}...` 
-                    : book.claptext}
+                  {book.claptext
+                    ? book.claptext.length > 150
+                      ? `${book.claptext.substring(0, 150)}…`
+                      : book.claptext
+                    : ""}
                 </p>
               </div>
 
-              <button 
-                className="remove-button" 
+              <button
+                className="remove-button"
                 onClick={() => removeFromRead(book.id)}
-                aria-label={`Remove ${book.title} from read list`}
+                aria-label={`Remove ${book.title}`}
               >
                 ✕
               </button>
@@ -90,9 +98,7 @@ function Read() {
         </div>
       )}
 
-      <div className="read-count">
-        {readBooks.length} {readBooks.length === 1 ? "book" : "books"} you've already read
-      </div>
+      <div className="read-count">{countLabel}</div>
     </div>
   );
 }

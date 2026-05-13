@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./../styles/PreferencesPage.css";
 import { usePreferences } from "../hooks/usePreferences";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const GENRES = ["New Adult", "Horror", "Fantasy", "Dark Romance", "BookTok", "Romance"];
 const LENGTHS = ["<100", "100-300", "300-500", ">500"];
@@ -18,6 +19,7 @@ function Preferences() {
 
   const navigate = useNavigate();
   const { savePreferences } = usePreferences();
+  const { t } = useLanguage();
 
   const toggleGenre = (genre) => {
     setSelectedGenres((prev) =>
@@ -41,11 +43,11 @@ function Preferences() {
   return (
     <div className="preferences-container">
       <div className="preferences-inner">
-        <h1 className="preferences-title">Set your preferences</h1>
+        <h1 className="preferences-title">{t("preferences.title")}</h1>
 
         <section className="preferences-section">
-          <h2>Choose your genres</h2>
-          <p className="section-description">Pick one or more genres</p>
+          <h2>{t("preferences.genreLabel")}</h2>
+          <p className="section-description">{t("preferences.genreDesc")}</p>
           <div className="option-row">
             {GENRES.map((g) => (
               <button
@@ -61,8 +63,8 @@ function Preferences() {
         </section>
 
         <section className="preferences-section">
-          <h2>Choose a length</h2>
-          <p className="section-description">How long should the book be?</p>
+          <h2>{t("preferences.lengthLabel")}</h2>
+          <p className="section-description">{t("preferences.lengthDesc")}</p>
           <div className="option-row">
             {LENGTHS.map((len) => (
               <button
@@ -78,8 +80,8 @@ function Preferences() {
         </section>
 
         <section className="preferences-section">
-          <h2>Choose a language</h2>
-          <p className="section-description">Which language do you prefer?</p>
+          <h2>{t("preferences.languageLabel")}</h2>
+          <p className="section-description">{t("preferences.languageDesc")}</p>
           <div className="option-row">
             {LANGUAGES.map((lang) => (
               <button
@@ -95,23 +97,23 @@ function Preferences() {
         </section>
 
         <section className="preferences-section">
-          <h2>Any favorite author?</h2>
-          <p className="section-description">Optional: add an author name</p>
+          <h2>{t("preferences.authorLabel")}</h2>
+          <p className="section-description">{t("preferences.authorDesc")}</p>
           <input
             className="author-input"
             type="text"
-            placeholder="Type an author (optional)"
+            placeholder={t("preferences.authorPlaceholder")}
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
         </section>
 
-        <button 
-          className="preferences-submit" 
+        <button
+          className="preferences-submit"
           onClick={handleFinish}
           disabled={!isFormValid}
         >
-          Start swiping
+          {t("preferences.submit")}
         </button>
       </div>
     </div>

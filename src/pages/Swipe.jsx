@@ -3,8 +3,11 @@ import "../styles/SwipePage.css";
 import { getSwipedIds, setSwipedIds, addLikedBook, addReadBook } from "../services/storageService";
 import { useBooks } from "../hooks/useBooks";
 import { saveLikedBook } from "../services/supabaseClient";
+import { useLanguage } from "../contexts/LanguageContext";
 
 function Card({ book, variant, animClass, onDecide, interactive }) {
+  const { t } = useLanguage();
+
   return (
     <div className={`deck-card ${variant} ${animClass || ""}`} style={{ pointerEvents: interactive ? "auto" : "none" }}>
       <div className="card-inner">
@@ -19,14 +22,17 @@ function Card({ book, variant, animClass, onDecide, interactive }) {
         </div>
 
         <div className="actions">
-          <button className="btn like" onClick={() => onDecide("like")} aria-label="Like">
+          <button className="btn like" onClick={() => onDecide("like")} aria-label={t("swipe.like")}>
             ❤
+            <span className="btn-label">{t("swipe.like")}</span>
           </button>
-          <button className="btn read" onClick={() => onDecide("read")} aria-label="Already read">
+          <button className="btn read" onClick={() => onDecide("read")} aria-label={t("swipe.read")}>
             ✓
+            <span className="btn-label">{t("swipe.read")}</span>
           </button>
-          <button className="btn dislike" onClick={() => onDecide("dislike")} aria-label="Dislike">
+          <button className="btn dislike" onClick={() => onDecide("dislike")} aria-label={t("swipe.dislike")}>
             👎
+            <span className="btn-label">{t("swipe.dislike")}</span>
           </button>
         </div>
       </div>
@@ -39,6 +45,7 @@ export default function Swipe() {
   const [locked, setLocked] = useState(false);
   const [swipedIds, setSwipedIdsState] = useState(() => getSwipedIds());
   const [outgoing, setOutgoing] = useState(null);
+  const { t } = useLanguage();
 
   const cleanupTimerRef = useRef(null);
 
@@ -146,7 +153,7 @@ export default function Swipe() {
           <Card book={topBook} variant="top" animClass="" onDecide={decide} interactive={!locked} />
         ) : (
           <div className="deck-empty" role="status" aria-live="polite">
-            Keine weiteren Bücher verfügbar.
+            {t("swipe.empty")}
           </div>
         )}
 

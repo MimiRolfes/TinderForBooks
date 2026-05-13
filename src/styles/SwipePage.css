@@ -1,49 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:wght@300;400;700&display=swap');
+/* ─── Swipe Page — Warm Pages ─────────────────────────────────────────────── */
 
+/* ── Page wrapper ── */
 .swipe-page {
-  background: #758695;
+  background: var(--color-bg, #758695);
   min-height: 100vh;
+  padding-top: 2.75rem; /* room for deck-stack peek */
+  padding-bottom: calc(var(--bottom-nav-height, 64px) + 1.25rem);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
+/* ── Deck container ── */
 .deck {
   position: relative;
-  width: 900px;
-  height: 420px;
+  width: min(92vw, 400px);
+  height: min(70vh, 600px);
+  min-height: 480px;
 }
 
+/* ── Stacked card peek — warm off-white, receding ── */
 .deck-stack {
   position: absolute;
   inset: 0;
-  border-radius: 40px;
-  background: rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-card, 26px);
   z-index: 0;
 }
-.deck-stack-1 { transform: translateY(-32px); }
-.deck-stack-2 {
-  transform: translateY(-16px);
-  background: rgba(255, 255, 255, 0.28);
+
+.deck-stack-1 {
+  transform: translateY(-20px) scale(0.94);
+  background: rgba(253, 250, 242, 0.30);
+  box-shadow: var(--shadow-sm);
 }
 
+.deck-stack-2 {
+  transform: translateY(-10px) scale(0.97);
+  background: rgba(253, 250, 242, 0.55);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Card shell — warm off-white ── */
 .deck-card {
   position: absolute;
   inset: 0;
-  background: #ffffff;
-  border-radius: 40px;
-  box-shadow: none;
+  background: var(--card-bg, #FDFAF2);
+  border-radius: var(--radius-card, 26px);
+  overflow: hidden;
   z-index: 1;
+  box-shadow: var(--shadow-card,
+    0 1px 3px  rgba(40, 25, 10, 0.06),
+    0 6px 18px rgba(40, 25, 10, 0.11),
+    0 20px 40px rgba(40, 25, 10, 0.09)
+  );
 }
 
 .deck-card.next {
-  transform: translateY(8px) scale(0.995);
+  transform: translateY(5px) scale(0.997);
 }
 
 .deck-card.top {
   z-index: 2;
 }
 
+/* ── Outgoing animation ── */
 .outgoing-layer {
   position: absolute;
   inset: 0;
@@ -53,93 +72,270 @@
 
 .deck-card.outgoing {
   z-index: 3;
-  transition: transform 260ms ease;
+  transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateX(0) translateY(0) rotate(0deg);
+  overflow: hidden;
 }
 
-.deck-card.outgoing.swipe-right {
-  transform: translateX(1200px) rotate(10deg);
-}
+.deck-card.outgoing.swipe-right { transform: translateX(150vw) rotate(14deg); }
+.deck-card.outgoing.swipe-left  { transform: translateX(-150vw) rotate(-14deg); }
+.deck-card.outgoing.swipe-down  { transform: translateY(150vh); }
 
-.deck-card.outgoing.swipe-left {
-  transform: translateX(-1200px) rotate(-10deg);
-}
-
-.deck-card.outgoing.swipe-down {
-  transform: translateY(900px);
-}
-
+/* ── Card inner — MOBILE: vertical flex ── */
 .card-inner {
   height: 100%;
-  padding: 40px;
-  display: grid;
-  grid-template-columns: 260px 1fr 80px;
-  gap: 40px;
-  align-items: start;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
+/* ── Cover ── */
 .cover {
-  width: 220px;
-  height: 220px;
-  border: 3px solid #000;
+  flex-shrink: 0;
+  width: 100%;
+  height: 44%;        /* ~44% of card height for the cover */
+  background: #F0EDE0; /* warm parchment background */
   display: flex;
   align-items: center;
   justify-content: center;
-  align-self: start;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(40, 25, 10, 0.06);
+  position: relative;
 }
+
+/* Subtle warm vignette at base of cover */
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: linear-gradient(to bottom, transparent, rgba(240, 237, 224, 0.6));
+  pointer-events: none;
+}
+
 .cover img {
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 1;
 }
 
+/* ── Text section ── */
 .claptext {
-  border: 3px solid #000;
-  padding: 30px;
-  font-family: "Inknut Antiqua", serif;
-  box-sizing: border-box;
-  height: 100%;
-  overflow: auto;
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.9rem 1.2rem 0.5rem;
+  -webkit-overflow-scrolling: touch;
 }
-.claptext h2 { margin: 0 0 12px; }
-.claptext p { margin: 0; }
 
+.claptext h2 {
+  font-family: 'Inknut Antiqua', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 0.2rem;
+  color: var(--card-text, #1C1610);
+}
+
+.claptext .author {
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 0.77rem;
+  color: var(--card-text-secondary, #7A6A58);
+  font-style: italic;
+  margin: 0 0 0.55rem;
+}
+
+.claptext p:not(.author) {
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.62;
+  color: #3D2E22;
+  margin: 0;
+}
+
+/* ── Action bar — warm, pill buttons with labels ── */
 .actions {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 0.9rem;
+  border-top: 1px solid rgba(40, 25, 10, 0.07);
+  background: var(--card-bg, #FDFAF2);
+}
+
+/* Pill buttons — not circles */
+.btn {
+  flex: 1;
+  max-width: 100px;
+  height: 54px;
+  border-radius: var(--radius-btn, 14px);
+  border: 1.5px solid transparent;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-}
-.btn {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  border: none;
-  font-size: 26px;
-  cursor: pointer;
-}
-.btn.like {
-  background: #fff;
-  border: 3px solid #e35b4f;
-}
-.btn.read {
-  background: #6db37b;
-  color: #fff;
-}
-.btn.dislike {
-  background: #f2eddc;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 8px rgba(40, 25, 10, 0.07);
 }
 
-@media (max-width: 980px) {
-  .deck { width: 92vw; height: 420px; }
-  .card-inner {
-    grid-template-columns: 220px 1fr 70px;
-    gap: 24px;
-  }
+/* Label under each icon */
+.btn-label {
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  line-height: 1;
+  color: currentColor;
 }
-.claptext .author {
-  font-family: "Inria Sans", sans-serif;
-  font-size: 16px;
-  color: #666;
-  font-style: italic;
-  margin: 0 0 12px;
+
+.btn:active {
+  transform: scale(0.91);
+  box-shadow: 0 1px 4px rgba(40, 25, 10, 0.06);
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+
+/* Dislike — warm neutral */
+.btn.dislike {
+  background: rgba(238, 235, 217, 0.7);
+  border-color: rgba(40, 25, 10, 0.09);
+  color: #6B5E52;
+}
+.btn.dislike .btn-label { color: #8A7A68; }
+
+/* Read — soft green */
+.btn.read {
+  background: #EEF7EF;
+  border-color: rgba(109, 179, 123, 0.28);
+  color: #4A8C5C;
+}
+
+/* Like — soft rose */
+.btn.like {
+  background: #FEF0EE;
+  border-color: rgba(227, 91, 79, 0.25);
+  color: #C45246;
+}
+
+/* ── Empty state ── */
+.deck-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(238, 235, 217, 0.75);
+  background: rgba(253, 250, 242, 0.08);
+  border-radius: var(--radius-card, 26px);
+  border: 1px dashed rgba(238, 235, 217, 0.25);
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ─── Desktop (≥ 768px) ───────────────────────────────────────────────────── */
+
+@media (min-width: 768px) {
+  .swipe-page {
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: calc(100vh - 58px);
+  }
+
+  .deck {
+    width: 860px;
+    height: 400px;
+    min-height: unset;
+  }
+
+  .deck-stack {
+    border-radius: 36px;
+  }
+
+  .deck-stack-1 { transform: translateY(-28px) scale(0.955); }
+  .deck-stack-2 { transform: translateY(-14px) scale(0.977); }
+
+  .deck-card {
+    border-radius: 36px;
+    overflow: visible;
+    box-shadow:
+      0 4px 12px rgba(40, 25, 10, 0.08),
+      0 16px 40px rgba(40, 25, 10, 0.12);
+  }
+
+  .deck-card.next { transform: translateY(8px) scale(0.995); }
+
+  /* Horizontal 3-column grid on desktop */
+  .card-inner {
+    display: grid;
+    flex-direction: unset;
+    grid-template-columns: 240px 1fr 100px;
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 36px;
+  }
+
+  .cover {
+    height: 100%;
+    width: 240px;
+    border-bottom: none;
+    border-right: 1px solid rgba(40, 25, 10, 0.06);
+    border-radius: 36px 0 0 36px;
+    flex-shrink: unset;
+  }
+
+  .cover::after { display: none; }
+
+  .claptext {
+    padding: 2rem 1.75rem;
+    flex: unset;
+    overflow: auto;
+    border-right: 1px solid rgba(40, 25, 10, 0.06);
+  }
+
+  .claptext h2 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+  .claptext .author { font-size: 0.85rem; margin-bottom: 0.8rem; }
+  .claptext p:not(.author) { font-size: 0.9rem; line-height: 1.65; }
+
+  /* Actions column on desktop */
+  .actions {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 1.5rem 0.75rem;
+    border-top: none;
+    border-radius: 0 36px 36px 0;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: unset;
+    height: 52px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+  }
+
+  .btn-label { font-size: 0.55rem; }
+}
+
+@media (max-width: 980px) and (min-width: 768px) {
+  .deck { width: 92vw; }
+  .card-inner { grid-template-columns: 200px 1fr 90px; }
+  .cover { width: 200px; }
 }

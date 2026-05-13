@@ -1,33 +1,37 @@
 import "./../styles/LandingPage.css";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../contexts/LanguageContext";
 
 function Home() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <div className="landing-container">
-      <h1 className="landing-title">Looking for a new<br/>story to read?</h1>
-
-      <button className="landing-button" onClick={() => navigate("/preferences")}>
-        Match with a book
-      </button>
-
-      <div className="section">
-        <h2>What we do</h2>
-        <p>
-          Tinder for Books helps you discover new books that match your interests.
-          Choose your preferences and swipe through personalized recommendations
-          with ease.
-        </p>
+      <div className="landing-hero">
+        <p className="landing-eyebrow">{t("home.eyebrow")}</p>
+        <h1 className="landing-title">{t("home.title")}</h1>
+        <p className="landing-subtitle">{t("home.subtitle")}</p>
+        <button className="landing-button" onClick={() => navigate("/preferences")}>
+          {t("home.cta")}
+        </button>
+        <p className="landing-footnote">{t("home.footnote")}</p>
       </div>
 
-      <div className="section">
-        <h2>How it works</h2>
-        <p>
-          Swipe right if you like a book, swipe left if you don’t.
-          Books you like are added to your personal wishlist.
-          No accounts, no long-term storage — everything is kept only during your session.
-        </p>
+      <div className="landing-divider" />
+
+      <div className="info-cards">
+        <div className="info-card">
+          <span className="info-card-icon">📖</span>
+          <h2>{t("home.card1Title")}</h2>
+          <p>{t("home.card1Body")}</p>
+        </div>
+
+        <div className="info-card">
+          <span className="info-card-icon">🫶</span>
+          <h2>{t("home.card2Title")}</h2>
+          <p>{t("home.card2Body")}</p>
+        </div>
       </div>
     </div>
   );
