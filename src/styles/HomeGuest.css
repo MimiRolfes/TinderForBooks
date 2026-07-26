@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
+.homeguest {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #22262b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 20px 100px;
+  color: #EEEBD9;
+  font-family: 'Inria Sans', sans-serif;
+}
+
+.homeguest-topbar {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.homeguest-guest-badge {
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-size: 1rem;
+  color: rgba(238, 235, 217, 0.6);
+  letter-spacing: 1px;
+}
+
+.homeguest-lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(20, 26, 32, 0.55);
+  color: rgba(238, 235, 217, 0.55);
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 0.85rem;
+}
+
+.homeguest-lang-toggle .active {
+  color: #EEEBD9;
+  font-weight: 700;
+}
+
+.homeguest-lang-toggle .sep {
+  color: rgba(238, 235, 217, 0.35);
+}
+
+.suggestions-title {
+  width: 100%;
+  max-width: 340px;
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: 6px;
+  margin: 8px 0 4px;
+}
+
+.deck-list {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.deck-card {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  border-radius: 20px;
+  padding: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.deck-cover {
+  width: 64px;
+  height: 92px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.deck-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.deck-title {
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-weight: 400;
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+  color: #EEEBD9;
+}
+
+.deck-meta {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: rgba(238, 235, 217, 0.85);
+}
+
+.deck-meta li::before {
+  content: "· ";
+}
+
+.deck-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.deck-swipe-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 6px 22px;
+  background: #EEEBD9;
+  color: #3B4A57;
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-size: 0.9rem;
+}
+
+.deck-dark-romance {
+  background: #3d1a24;
+}
+
+.deck-romance {
+  background: #7c4a52;
+}
+
+.deck-fantasy {
+  background: #565c63;
+}
+
+.deck-horror {
+  background: #1b1e22;
+}
+
+.deck-romantasy {
+  background: linear-gradient(135deg, #c0555c, #8a3a40);
+}
+
+.deck-dark {
+  background: #3a151b;
+}
+
+.deck-thriller-krimi {
+  background: #4b4f56;
+}

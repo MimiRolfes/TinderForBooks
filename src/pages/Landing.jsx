@@ -1,0 +1,55 @@
+import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../contexts/LanguageContext";
+import cosmosBg from "../assets/cosmos_2099375163.jpeg";
+import "../styles/Landing.css";
+
+function Landing() {
+  const navigate = useNavigate();
+  const { lang, toggleLang, t } = useLanguage();
+
+  return (
+    <div className="landing" style={{ "--bg-image": `url(${cosmosBg})` }}>
+      <button className="landing-lang-toggle" onClick={toggleLang} aria-label="Toggle language">
+        <span className={lang === "en" ? "active" : ""}>en</span>
+        <span className="sep">|</span>
+        <span className={lang === "de" ? "active" : ""}>de</span>
+      </button>
+
+      <h1 className="landing-title">
+        {t("landing.titlePre")} <span className="highlight">{t("landing.titleHighlight")}</span> {t("landing.titlePost")}
+      </h1>
+
+      <div className="landing-actions">
+        <button className="landing-btn" onClick={() => navigate("/home-guest")}>
+          {t("landing.guestButton")}
+        </button>
+        <button className="landing-btn" onClick={() => navigate("/profile")}>
+          {t("landing.loginButton")}
+        </button>
+      </div>
+
+      <section className="landing-card">
+        <h2>{t("landing.howItWorksTitle")}</h2>
+        <p>
+          <em>{t("landing.guestLabel")}</em>
+          <br /> {t("landing.guestBody")}
+        </p>
+        <p>
+          <em>{t("landing.loginLabel")}</em>
+          <br /> {t("landing.loginBody")}
+        </p>
+      </section>
+
+      <section className="landing-card">
+        <h2>{t("landing.whatWeDoTitle")}</h2>
+        <p>
+          {t("landing.whatWeDoPre")} <em>{t("landing.whatWeDoEm1")}</em> {t("landing.whatWeDoMid")}{" "}
+          <em>{t("landing.whatWeDoEm2")}</em>
+          {t("landing.whatWeDoEnd")} <em>{t("landing.whatWeDoEm3")}</em>
+        </p>
+      </section>
+    </div>
+  );
+}
+
+export default Landing;

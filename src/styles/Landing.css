@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=EB+Garamond:ital,wght@0,400;1,400;1,500&family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
+.landing {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  padding: 56px 24px 64px;
+  font-family: 'EB Garamond', Georgia, serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.21;
+  z-index: 0;
+}
+
+.landing > * {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-lang-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(20, 26, 32, 0.55);
+  color: rgba(238, 235, 217, 0.55);
+  font-family: inherit;
+  font-size: 0.85rem;
+  backdrop-filter: blur(4px);
+}
+
+.landing-lang-toggle .active {
+  color: #EEEBD9;
+  font-weight: 600;
+}
+
+.landing-lang-toggle .sep {
+  color: rgba(238, 235, 217, 0.35);
+}
+
+.landing-title {
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-weight: 400;
+  font-size: 1.7rem;
+  text-align: center;
+  margin: 32px 0 0;
+  line-height: 1.4;
+  color: #F1ECDA;
+  }
+
+.landing-title .highlight {
+  color: #E8635C;
+  font-style: italic;
+}
+
+.landing-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.landing-btn {
+  width: 90%;
+  padding: 0.5px;
+  border: none;
+  border-radius: 20px;
+  background: #F1ECDA;
+  color: #758695;
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-size: 1.1rem;
+  text-shadow: 03px 3px 3.5px rgba(0, 0, 0, 0.25);
+}
+
+.landing-card {
+  width: 100%;
+  max-width: 340px;
+  background: #75869586;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 5px 15px 20px;
+  backdrop-filter: blur(2px);
+
+}
+
+.landing-card h2 {
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: #E8635C;
+  margin: 0 0 -3px;
+}
+
+.landing-card p {
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #EEEBD9;
+  margin: 0 0 12px;
+}
+
+.landing-card p:last-child {
+  margin-bottom: 0;
+}
+
+.landing-card em {
+  font-weight: 500;
+}
