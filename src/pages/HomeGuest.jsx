@@ -1,6 +1,6 @@
 import { useLanguage } from "../contexts/LanguageContext";
 import BottomNav from "../components/BottomNav";
-import LangToggle from "../components/LangToggle";
+import GuestTopbar from "../components/GuestTopbar";
 import coverDarkRomance from "../assets/covers/dark-romance.jpg";
 import coverRomance from "../assets/covers/romance.jpg";
 import coverFourthWing from "../assets/covers/fourth-wing.jpg";
@@ -23,10 +23,7 @@ function HomeGuest() {
 
   return (
     <div className="homeguest">
-      <header className="homeguest-topbar">
-        <span className="homeguest-guest-badge">*{t("nav.guest")}*</span>
-        <LangToggle className="homeguest-lang-toggle" />
-      </header>
+      <GuestTopbar />
 
       <h1 className="suggestions-title">{t("home.suggestionsTitle")}</h1>
 

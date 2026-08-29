@@ -19,30 +19,7 @@
   font-family: 'Inria Sans', sans-serif;
 }
 
-/* ─── Top bar ──────────────────────────────────────────────────────────── */
-
-.homeguest-topbar {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 24px;
-}
-
-.homeguest-guest-badge {
-  font-family: 'Inknut Antiqua', Georgia, serif;
-  font-size: 0.8rem;
-  color: #F1ECDA;
-  letter-spacing: 1px;
-}
-
-/* shared .lang-toggle handles the visual style — position only here */
-.homeguest-lang-toggle {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
+/* top bar is the shared <GuestTopbar> component */
 
 /* ─── Section title ────────────────────────────────────────────────────── */
 

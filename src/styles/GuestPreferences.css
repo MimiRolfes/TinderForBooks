@@ -14,34 +14,12 @@
   flex-direction: column;
   align-items: stretch;
   gap: 22px;
-  padding: 18px 26px 112px;
+  padding: 20px 24px 112px;
   color: #F5F1E6;
   font-family: 'Inria Sans', sans-serif;
 }
 
-/* ─── Top bar ──────────────────────────────────────────────────────────── */
-
-.prefs-topbar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 24px;
-}
-
-.prefs-guest-badge {
-  font-family: 'Inknut Antiqua', Georgia, serif;
-  font-size: 0.85rem;
-  color: #F1ECDA;
-  letter-spacing: 1px;
-}
-
-/* shared .lang-toggle handles the visual style — position only here */
-.prefs-lang-toggle {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
+/* top bar is the shared <GuestTopbar> component */
 
 /* ─── Sections ─────────────────────────────────────────────────────────── */
 

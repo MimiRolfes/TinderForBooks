@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600;700&display=swap');
+
+/* ─── Shared guest top bar (badge + EN/DE toggle) ──────────────────────── */
+
+.guest-topbar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+}
+
+.guest-topbar-badge {
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: #F1ECDA;
+}
+
+.guest-topbar-lang {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}

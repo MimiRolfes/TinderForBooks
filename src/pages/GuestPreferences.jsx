@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import BottomNav from "../components/BottomNav";
-import LangToggle from "../components/LangToggle";
+import GuestTopbar from "../components/GuestTopbar";
 import "../styles/GuestPreferences.css";
 
 const GENRES = [
@@ -30,10 +30,7 @@ function GuestPreferences() {
 
   return (
     <div className="prefs">
-      <header className="prefs-topbar">
-        <span className="prefs-guest-badge">*{t("nav.guest")}*</span>
-        <LangToggle className="prefs-lang-toggle" />
-      </header>
+      <GuestTopbar />
 
       <section className="prefs-section">
         <h2 className="prefs-heading">{t("guestPrefs.genre")}</h2>

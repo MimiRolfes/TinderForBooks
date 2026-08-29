@@ -182,8 +182,8 @@ persistence yet; controls sized up from the Figma px values for real
 mobile devices (touch targets / legibility) - global dark background set
 on `html`/`body` (with `:has(.landing)` = black) plus `100dvh` page
 heights so mobile overscroll never flashes white - shared `LangToggle`
-component (`src/components/LangToggle.jsx`) so the EN/DE switch looks
-identical on every screen (pages supply a positioning class only) - Home
+and `GuestTopbar` components (`src/components/`) so the EN/DE switch and
+the "*Guest*" top bar are pixel-identical across guest screens - Home
 redesigned - Navigation
 redesigned - Swipe redesigned - EN/DE localization implemented across
 major screens - language
