@@ -5,12 +5,13 @@ export const translations = {
   en: {
     nav: {
       appName: "Tinder for Books",
-      home:     "Home",
-      swipe:    "Swipe",
-      wishlist: "Wishlist",
-      read:     "Read",
-      profile:  "Profile",
-      guest:    "Guest",
+      home:        "Home",
+      preferences: "Preferences",
+      swipe:       "Swipe",
+      wishlist:    "Wishlist",
+      read:        "Read",
+      profile:     "Profile",
+      guest:       "Guest",
     },
 
     landing: {
@@ -102,12 +103,13 @@ export const translations = {
   de: {
     nav: {
       appName: "Tinder for Books",
-      home:     "Start",
-      swipe:    "Entdecken",
-      wishlist: "Merkliste",
-      read:     "Gelesen",
-      profile:  "Profil",
-      guest:    "Gast",
+      home:        "Start",
+      preferences: "Präferenzen",
+      swipe:       "Entdecken",
+      wishlist:    "Merkliste",
+      read:        "Gelesen",
+      profile:     "Profil",
+      guest:       "Gast",
     },
 
     landing: {

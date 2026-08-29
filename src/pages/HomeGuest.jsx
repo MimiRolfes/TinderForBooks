@@ -1,15 +1,20 @@
 import { useLanguage } from "../contexts/LanguageContext";
-import bookPlaceholder from "../assets/Book.png";
+import BottomNav from "../components/BottomNav";
+import coverDarkRomance from "../assets/covers/dark-romance.jpg";
+import coverRomance from "../assets/covers/romance.jpg";
+import coverFourthWing from "../assets/covers/fourth-wing.jpg";
+import coverBlackwood from "../assets/covers/blackwood-institute.jpg";
+import coverMimik from "../assets/covers/mimik.jpg";
 import "../styles/HomeGuest.css";
 
 const decks = [
-  { id: "dark-romance", title: "Dark Romance (De)", genre: "Dark Romance", colorClass: "deck-dark-romance" },
-  { id: "romance", title: "Romance (De)", genre: "Romance", colorClass: "deck-romance" },
-  { id: "fantasy", title: "Fantasy (De)", genre: "Fantasy", colorClass: "deck-fantasy" },
-  { id: "horror", title: "Horror(De)", genre: "Horror", colorClass: "deck-horror" },
-  { id: "romantasy", title: "Romantasy (De)", genre: "Romance/Fantasy", colorClass: "deck-romantasy" },
-  { id: "dark", title: "Dark (De)", genre: "Dark Romance, Horror, Reverse Harem, Dark Thriller", colorClass: "deck-dark" },
-  { id: "thriller-krimi", title: "Thriller/Krimi(De)", genre: "Thriller, Krimi", colorClass: "deck-thriller-krimi" },
+  { id: "dark-romance", title: "Dark Romance (De)", genre: "Dark Romance", colorClass: "deck-dark-romance", cover: coverDarkRomance },
+  { id: "romance", title: "Romance (De)", genre: "Romance", colorClass: "deck-romance", cover: coverRomance },
+  { id: "fantasy", title: "Fantasy (De)", genre: "Fantasy", colorClass: "deck-fantasy", cover: coverFourthWing },
+  { id: "horror", title: "Horror (De)", genre: "Horror", colorClass: "deck-horror", cover: coverBlackwood },
+  { id: "romantasy", title: "Romantasy (De)", genre: "Romance/Fantasy", colorClass: "deck-romantasy", cover: coverFourthWing },
+  { id: "dark", title: "Dark (De)", genre: "Dark Romance, Horror, Reverse Harem, Dark Thriller", colorClass: "deck-dark", cover: coverBlackwood },
+  { id: "thriller-krimi", title: "Thriller/Krimi (De)", genre: "Thriller, Krimi", colorClass: "deck-thriller-krimi", cover: coverMimik },
 ];
 
 function HomeGuest() {
@@ -17,21 +22,21 @@ function HomeGuest() {
 
   return (
     <div className="homeguest">
-      <div className="homeguest-topbar">
+      <header className="homeguest-topbar">
         <span className="homeguest-guest-badge">*{t("nav.guest")}*</span>
         <button className="homeguest-lang-toggle" onClick={toggleLang} aria-label="Toggle language">
           <span className={lang === "en" ? "active" : ""}>en</span>
           <span className="sep">|</span>
           <span className={lang === "de" ? "active" : ""}>de</span>
         </button>
-      </div>
+      </header>
 
       <h1 className="suggestions-title">{t("home.suggestionsTitle")}</h1>
 
       <div className="deck-list">
         {decks.map((deck) => (
           <section key={deck.id} className={`deck-card ${deck.colorClass}`}>
-            <img className="deck-cover" src={bookPlaceholder} alt="" />
+            <img className="deck-cover" src={deck.cover} alt="" />
             <div className="deck-info">
               <h2 className="deck-title">{deck.title}</h2>
               <ul className="deck-meta">
@@ -47,6 +52,8 @@ function HomeGuest() {
           </section>
         ))}
       </div>
+
+      <BottomNav active="home" />
     </div>
   );
 }

@@ -1,68 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600;700&family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ─── Guest Home — genre suggestion decks ──────────────────────────────── */
 
 .homeguest {
   min-height: 100vh;
   width: 100%;
-  background-color: #22262b;
+  margin: 0 auto;
+  max-width: 460px;
+  background-color: #2B2F33;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 24px 20px 100px;
-  color: #EEEBD9;
+  gap: 16px;
+  padding: 20px 24px 110px;
+  color: #F5F1E6;
   font-family: 'Inria Sans', sans-serif;
 }
 
+/* ─── Top bar ──────────────────────────────────────────────────────────── */
+
 .homeguest-topbar {
+  position: relative;
   width: 100%;
-  max-width: 340px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  min-height: 24px;
 }
 
 .homeguest-guest-badge {
   font-family: 'Inknut Antiqua', Georgia, serif;
-  font-size: 1rem;
-  color: rgba(238, 235, 217, 0.6);
+  font-size: 0.8rem;
+  color: #F1ECDA;
   letter-spacing: 1px;
 }
 
 .homeguest-lang-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  gap: 5px;
+  padding: 3px 10px;
   border: none;
-  border-radius: 999px;
-  background: rgba(20, 26, 32, 0.55);
-  color: rgba(238, 235, 217, 0.55);
+  border-radius: 12px;
+  background: rgba(80, 94, 107, 0.87);
+  color: rgba(245, 241, 230, 0.22);
   font-family: 'Inria Sans', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
+  cursor: pointer;
 }
 
 .homeguest-lang-toggle .active {
-  color: #EEEBD9;
+  color: #F5F1E6;
   font-weight: 700;
 }
 
 .homeguest-lang-toggle .sep {
-  color: rgba(238, 235, 217, 0.35);
+  color: rgba(255, 255, 255, 0.22);
 }
+
+/* ─── Section title ────────────────────────────────────────────────────── */
 
 .suggestions-title {
   width: 100%;
-  max-width: 340px;
+  max-width: 344px;
   font-family: 'Inknut Antiqua', Georgia, serif;
-  font-weight: 400;
-  font-size: 1.6rem;
-  letter-spacing: 6px;
-  margin: 8px 0 4px;
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 5.4px;
+  color: #F1ECDA;
+  margin: 6px 0 2px;
 }
+
+/* ─── Deck list ────────────────────────────────────────────────────────── */
 
 .deck-list {
   width: 100%;
-  max-width: 340px;
+  max-width: 344px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -70,24 +86,27 @@
 
 .deck-card {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 14px;
-  border-radius: 20px;
-  padding: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  min-height: 143px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 13px;
+  padding: 13px 16px;
+  overflow: hidden;
 }
 
 .deck-cover {
-  width: 64px;
-  height: 92px;
+  width: 74px;
+  height: 115px;
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: 2px;
   object-fit: cover;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .deck-info {
   flex: 1;
+  align-self: stretch;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -96,22 +115,19 @@
 .deck-title {
   font-family: 'Inknut Antiqua', Georgia, serif;
   font-weight: 400;
-  font-size: 1.05rem;
-  margin: 0 0 8px;
-  color: #EEEBD9;
+  font-size: 0.94rem;
+  line-height: 1.2;
+  margin: 0 0 6px;
+  color: #F1ECDA;
 }
 
 .deck-meta {
-  list-style: none;
-  margin: 0 0 10px;
-  padding: 0;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  color: rgba(238, 235, 217, 0.85);
-}
-
-.deck-meta li::before {
-  content: "· ";
+  list-style: disc;
+  margin: 0 0 8px;
+  padding: 0 0 0 18px;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: #F5F1E6;
 }
 
 .deck-actions {
@@ -122,38 +138,43 @@
 
 .deck-swipe-btn {
   border: none;
-  border-radius: 999px;
-  padding: 6px 22px;
-  background: #EEEBD9;
-  color: #3B4A57;
+  border-radius: 13px;
+  padding: 4px 18px;
+  background: #F1ECDA;
+  color: #758695;
   font-family: 'Inknut Antiqua', Georgia, serif;
-  font-size: 0.9rem;
+  font-size: 0.625rem;
+  line-height: 1;
+  cursor: pointer;
+  text-shadow: 3px 3px 3.5px rgba(0, 0, 0, 0.25);
 }
 
+/* ─── Per-genre card surfaces (from Figma) ─────────────────────────────── */
+
 .deck-dark-romance {
-  background: #3d1a24;
+  background: rgba(123, 1, 30, 0.25);
 }
 
 .deck-romance {
-  background: #7c4a52;
+  background: rgba(251, 112, 114, 0.25);
 }
 
 .deck-fantasy {
-  background: #565c63;
+  background: rgba(238, 235, 217, 0.25);
 }
 
 .deck-horror {
-  background: #1b1e22;
+  background: rgba(40, 36, 39, 0.8);
 }
 
 .deck-romantasy {
-  background: linear-gradient(135deg, #c0555c, #8a3a40);
+  background: linear-gradient(247deg, rgba(251, 112, 114, 0.64) 41%, rgba(123, 1, 30, 0.69) 100%);
 }
 
 .deck-dark {
-  background: #3a151b;
+  background: linear-gradient(247deg, rgb(40, 36, 39) 51%, rgba(123, 1, 30, 0.5) 100%);
 }
 
 .deck-thriller-krimi {
-  background: #4b4f56;
+  background: rgba(255, 255, 255, 0.3);
 }

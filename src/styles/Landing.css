@@ -1,15 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=EB+Garamond:ital,wght@0,400;1,400;1,500&family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ─── Start / Landing — "Warm Pages" over cosmos ─────────────────────────── */
 
 .landing {
   min-height: 100vh;
   width: 100%;
+  margin: 0 auto;
+  max-width: 460px;
   background-color: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
-  padding: 56px 24px 64px;
-  font-family: 'EB Garamond', Georgia, serif;
+  gap: 22px;
+  padding: 44px 24px 64px;
+  font-family: 'Inria Sans', sans-serif;
   position: relative;
   overflow: hidden;
 }
@@ -31,93 +35,119 @@
   z-index: 1;
 }
 
+/* ─── Language toggle ───────────────────────────────────────────────────── */
+
 .landing-lang-toggle {
-  position: fixed;
+  position: absolute;
   top: 20px;
-  right: 20px;
+  right: 24px;
   z-index: 10;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  gap: 5px;
+  padding: 3px 10px;
   border: none;
-  border-radius: 999px;
-  background: rgba(20, 26, 32, 0.55);
-  color: rgba(238, 235, 217, 0.55);
-  font-family: inherit;
-  font-size: 0.85rem;
-  backdrop-filter: blur(4px);
+  border-radius: 12px;
+  background: rgba(80, 94, 107, 0.87);
+  color: rgba(255, 255, 255, 0.22);
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 0.7rem;
+  cursor: pointer;
 }
 
 .landing-lang-toggle .active {
-  color: #EEEBD9;
+  color: #F5F1E6;
   font-weight: 600;
 }
 
 .landing-lang-toggle .sep {
-  color: rgba(238, 235, 217, 0.35);
+  color: rgba(255, 255, 255, 0.22);
 }
+
+/* ─── Title ─────────────────────────────────────────────────────────────── */
 
 .landing-title {
   font-family: 'Inknut Antiqua', Georgia, serif;
   font-weight: 400;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   text-align: center;
-  margin: 32px 0 0;
-  line-height: 1.4;
+  margin: 30px 0 4px;
+  line-height: 1.25;
   color: #F1ECDA;
-  }
-
-.landing-title .highlight {
-  color: #E8635C;
-  font-style: italic;
 }
 
+.landing-title .highlight {
+  color: #FB7072;
+}
+
+/* ─── Actions (buttons + decorative doodle) ─────────────────────────────── */
+
 .landing-actions {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
   width: 100%;
-  max-width: 280px;
+  max-width: 210px;
+  padding: 4px 0 32px;
+}
+
+.landing-doodle {
+  position: absolute;
+  left: -52px;
+  top: 24px;
+  width: 108px;
+  height: 152px;
+  object-fit: contain;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .landing-btn {
-  width: 90%;
-  padding: 0.5px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 7px 14px;
   border: none;
-  border-radius: 20px;
+  border-radius: 13px;
   background: #F1ECDA;
   color: #758695;
   font-family: 'Inknut Antiqua', Georgia, serif;
-  font-size: 1.1rem;
-  text-shadow: 03px 3px 3.5px rgba(0, 0, 0, 0.25);
+  font-size: 0.9rem;
+  line-height: 1.15;
+  cursor: pointer;
+  text-shadow: 3px 3px 3.5px rgba(0, 0, 0, 0.25);
 }
+
+/* ─── Info cards ────────────────────────────────────────────────────────── */
 
 .landing-card {
   width: 100%;
-  max-width: 340px;
-  background: #75869586;
+  max-width: 300px;
+  background: rgba(117, 134, 149, 0.57);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 5px 15px 20px;
+  border-radius: 18px;
+  padding: 12px 18px 18px;
   backdrop-filter: blur(2px);
-
 }
 
 .landing-card h2 {
   font-family: 'Inknut Antiqua', Georgia, serif;
   font-weight: 400;
-  font-size: 1.15rem;
-  color: #E8635C;
-  margin: 0 0 -3px;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  color: #FB7072;
+  text-align: center;
+  margin: 2px 0 10px;
 }
 
 .landing-card p {
   font-family: 'Inria Sans', sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.85rem;
   line-height: 1.5;
-  color: #EEEBD9;
+  color: #F5F1E6;
   margin: 0 0 12px;
 }
 
@@ -126,5 +156,6 @@
 }
 
 .landing-card em {
-  font-weight: 500;
+  font-style: italic;
+  font-weight: 400;
 }
