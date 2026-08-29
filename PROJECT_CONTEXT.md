@@ -173,8 +173,18 @@ decorative turtle doodle) - Guest Home ("Guest Home" frame) redesigned:
 genre suggestion decks with real book covers, per-genre translucent card
 surfaces, cream Swipe buttons - reusable `BottomNav` component
 (`src/components/BottomNav.jsx`) with Home / Preferences / Swipe /
-Wishlist; only Home is wired (`/home-guest`), the other three render but
-stay inactive until their screens exist - Home redesigned - Navigation
+Wishlist; Home (`/home-guest`) and Preferences (`/guest-preferences`)
+are wired, Swipe and Wishlist render but stay inactive until their
+screens exist - Guest Preferences ("Guest Preferances" frame) built at
+`/guest-preferences`: genre chips (multi-select), page-count radios,
+language chips, author input, Swipe CTA; interactive local state, no
+persistence yet; controls sized up from the Figma px values for real
+mobile devices (touch targets / legibility) - global dark background set
+on `html`/`body` (with `:has(.landing)` = black) plus `100dvh` page
+heights so mobile overscroll never flashes white - shared `LangToggle`
+component (`src/components/LangToggle.jsx`) so the EN/DE switch looks
+identical on every screen (pages supply a positioning class only) - Home
+redesigned - Navigation
 redesigned - Swipe redesigned - EN/DE localization implemented across
 major screens - language
 preference persists locally - Wishlist previously supported Supabase

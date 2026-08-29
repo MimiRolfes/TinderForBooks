@@ -1,20 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext";
+import LangToggle from "../components/LangToggle";
 import cosmosBg from "../assets/cosmos_2099375163.jpeg";
 import turtleDoodle from "../assets/turtle-doodle.png";
 import "../styles/Landing.css";
 
 function Landing() {
   const navigate = useNavigate();
-  const { lang, toggleLang, t } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <div className="landing" style={{ "--bg-image": `url(${cosmosBg})` }}>
-      <button className="landing-lang-toggle" onClick={toggleLang} aria-label="Toggle language">
-        <span className={lang === "en" ? "active" : ""}>en</span>
-        <span className="sep">|</span>
-        <span className={lang === "de" ? "active" : ""}>de</span>
-      </button>
+      <LangToggle className="landing-lang-toggle" />
 
       <h1 className="landing-title">
         {t("landing.titlePre")} <span className="highlight">{t("landing.titleHighlight")}</span> {t("landing.titlePost")}

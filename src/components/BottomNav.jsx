@@ -6,12 +6,11 @@ import swipeIcon from "../assets/nav/swipe.png";
 import wishlistIcon from "../assets/nav/wishlist.png";
 import "../styles/BottomNav.css";
 
-// Primary mobile navigation. Only "home" is wired for now — Preferences,
-// Swipe and Wishlist screens don't exist yet, so those items render but
-// stay inactive until their routes are added.
+// Primary mobile navigation. Swipe and Wishlist screens don't exist yet,
+// so those items render but stay inactive until their routes are added.
 const ITEMS = [
   { key: "home", labelKey: "nav.home", icon: homeIcon, to: "/home-guest" },
-  { key: "preferences", labelKey: "nav.preferences", icon: preferencesIcon, to: null },
+  { key: "preferences", labelKey: "nav.preferences", icon: preferencesIcon, to: "/guest-preferences" },
   { key: "swipe", labelKey: "nav.swipe", icon: swipeIcon, to: null },
   { key: "wishlist", labelKey: "nav.wishlist", icon: wishlistIcon, to: null },
 ];

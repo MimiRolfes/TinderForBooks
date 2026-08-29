@@ -1,5 +1,6 @@
 import { useLanguage } from "../contexts/LanguageContext";
 import BottomNav from "../components/BottomNav";
+import LangToggle from "../components/LangToggle";
 import coverDarkRomance from "../assets/covers/dark-romance.jpg";
 import coverRomance from "../assets/covers/romance.jpg";
 import coverFourthWing from "../assets/covers/fourth-wing.jpg";
@@ -18,17 +19,13 @@ const decks = [
 ];
 
 function HomeGuest() {
-  const { lang, toggleLang, t } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <div className="homeguest">
       <header className="homeguest-topbar">
         <span className="homeguest-guest-badge">*{t("nav.guest")}*</span>
-        <button className="homeguest-lang-toggle" onClick={toggleLang} aria-label="Toggle language">
-          <span className={lang === "en" ? "active" : ""}>en</span>
-          <span className="sep">|</span>
-          <span className={lang === "de" ? "active" : ""}>de</span>
-        </button>
+        <LangToggle className="homeguest-lang-toggle" />
       </header>
 
       <h1 className="suggestions-title">{t("home.suggestionsTitle")}</h1>

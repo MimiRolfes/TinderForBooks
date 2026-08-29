@@ -3,6 +3,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import HomeGuest from "./pages/HomeGuest";
+import GuestPreferences from "./pages/GuestPreferences";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/home-guest" element={<HomeGuest />} />
+          <Route path="/guest-preferences" element={<GuestPreferences />} />
         </Routes>
       </Router>
     </LanguageProvider>

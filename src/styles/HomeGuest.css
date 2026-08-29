@@ -4,6 +4,8 @@
 
 .homeguest {
   min-height: 100vh;
+  min-height: 100dvh;
+  flex: 1;
   width: 100%;
   margin: 0 auto;
   max-width: 460px;
@@ -35,30 +37,11 @@
   letter-spacing: 1px;
 }
 
+/* shared .lang-toggle handles the visual style — position only here */
 .homeguest-lang-toggle {
   position: absolute;
   right: 0;
   top: 0;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
-  border: none;
-  border-radius: 12px;
-  background: rgba(80, 94, 107, 0.87);
-  color: rgba(245, 241, 230, 0.22);
-  font-family: 'Inria Sans', sans-serif;
-  font-size: 0.7rem;
-  cursor: pointer;
-}
-
-.homeguest-lang-toggle .active {
-  color: #F5F1E6;
-  font-weight: 700;
-}
-
-.homeguest-lang-toggle .sep {
-  color: rgba(255, 255, 255, 0.22);
 }
 
 /* ─── Section title ────────────────────────────────────────────────────── */

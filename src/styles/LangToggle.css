@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ─── Shared EN / DE toggle ────────────────────────────────────────────── */
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(80, 94, 107, 0.87);
+  color: rgba(245, 241, 230, 0.22);
+  font-family: 'Inria Sans', sans-serif;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lang-toggle .active {
+  color: #F5F1E6;
+  font-weight: 700;
+}
+
+.lang-toggle .sep {
+  color: rgba(255, 255, 255, 0.22);
+}

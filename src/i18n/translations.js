@@ -51,6 +51,15 @@ export const translations = {
       empty:   "No more books available.",
     },
 
+    guestPrefs: {
+      genre:             "Genre",
+      pages:             "Pages",
+      language:          "Language",
+      author:            "Author",
+      authorPlaceholder: "Type an author (optional)",
+      submit:            "Swipe",
+    },
+
     preferences: {
       title:             "How do you like to read?",
       genreLabel:        "Your genres",
@@ -147,6 +156,15 @@ export const translations = {
       read:    "Gelesen",
       dislike: "Weiter",
       empty:   "Keine weiteren Bücher verfügbar.",
+    },
+
+    guestPrefs: {
+      genre:             "Genre",
+      pages:             "Seiten",
+      language:          "Sprache",
+      author:            "Autor",
+      authorPlaceholder: "Autor eingeben (optional)",
+      submit:            "Swipe",
     },
 
     preferences: {

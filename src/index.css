@@ -9,10 +9,19 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  /* Base app background so overscroll / viewport quirks on mobile never
+     flash white behind a page. */
+  background-color: #2B2F33;
+}
+
+/* Landing sits on near-black; keep its overscroll area matching. */
+html:has(.landing) {
+  background-color: #000;
 }
 
 #root {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
