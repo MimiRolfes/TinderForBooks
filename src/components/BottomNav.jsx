@@ -6,12 +6,13 @@ import swipeIcon from "../assets/nav/swipe.png";
 import wishlistIcon from "../assets/nav/wishlist.png";
 import "../styles/BottomNav.css";
 
-// Primary mobile navigation for the guest flow.
+// Primary mobile navigation for the guest flow. `glow` is the colour the
+// active icon lights up with in Figma — it matches each icon's own colour.
 const ITEMS = [
-  { key: "home", labelKey: "nav.home", icon: homeIcon, to: "/home-guest" },
-  { key: "preferences", labelKey: "nav.preferences", icon: preferencesIcon, to: "/guest-preferences" },
-  { key: "swipe", labelKey: "nav.swipe", icon: swipeIcon, to: "/guest-swipe" },
-  { key: "wishlist", labelKey: "nav.wishlist", icon: wishlistIcon, to: "/guest-wishlist" },
+  { key: "home", labelKey: "nav.home", icon: homeIcon, to: "/home-guest", glow: "#90CAF9" },
+  { key: "preferences", labelKey: "nav.preferences", icon: preferencesIcon, to: "/guest-preferences", glow: "#90CAF9" },
+  { key: "swipe", labelKey: "nav.swipe", icon: swipeIcon, to: "/guest-swipe", glow: "#FB7072" },
+  { key: "wishlist", labelKey: "nav.wishlist", icon: wishlistIcon, to: "/guest-wishlist", glow: "#A5D6A7" },
 ];
 
 function BottomNav({ active = "home" }) {
@@ -27,6 +28,7 @@ function BottomNav({ active = "home" }) {
             key={item.key}
             type="button"
             className={`bottom-nav-item${isActive ? " active" : ""}`}
+            style={{ "--nav-glow": item.glow }}
             aria-current={isActive ? "page" : undefined}
             onClick={() => navigate(item.to)}
           >
