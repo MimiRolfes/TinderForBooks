@@ -3,8 +3,9 @@
 /* ─── Start / Landing — "Warm Pages" over cosmos ─────────────────────────── */
 
 /* Backdrop = exactly the Figma "Start" frame: black fill + the cosmos
-   image at 21% opacity on top. It just covers the whole viewport (no
-   fixed attachment, no parallax). .landing-inner is the centred content
+   image at 21% opacity on top. The whole backdrop is pinned to the
+   viewport (position: fixed) — it fills the screen and does not move
+   when the content scrolls. .landing-inner is the centred content
    column on top. */
 .landing {
   min-height: 100vh;
@@ -21,7 +22,7 @@
 
 .landing::before {
   content: '';
-  position: absolute;
+  position: fixed;
   inset: 0;
   background-image: var(--bg-image);
   background-size: cover;
