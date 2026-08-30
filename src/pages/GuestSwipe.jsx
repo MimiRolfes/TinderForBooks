@@ -12,6 +12,7 @@ import checkIcon from "../assets/icons/check.png";
 import "../styles/GuestSwipe.css";
 
 const SWIPE_COMMIT = 90; // px drag distance that commits a save / skip
+const EXIT_MS = 360; // fly-off animation length — keep in sync with the CSS
 
 function GuestSwipe() {
   const { t } = useLanguage();
@@ -24,7 +25,9 @@ function GuestSwipe() {
   const [status, setStatus] = useState("loading"); // loading | ready | error
   const [drag, setDrag] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [exiting, setExiting] = useState(null); // null | "like" | "skip"
   const dragStart = useRef(null);
+  const exitTimer = useRef(null);
 
   const current = deck[0];
 
@@ -61,6 +64,8 @@ function GuestSwipe() {
     return () => ctrl.abort();
   }, [load]);
 
+  useEffect(() => () => window.clearTimeout(exitTimer.current), []);
+
   // Blurbs are slow on Open Library, so fetch them only for the visible card
   // and the next one, right when they're needed.
   useEffect(() => {
@@ -77,19 +82,27 @@ function GuestSwipe() {
   }, [deck]);
 
   // ─── actions ─────────────────────────────────────────────────────────
+  // Fly the card off screen, persist the decision, then drop it from the deck.
   const advance = (like) => {
-    if (!current) return;
+    if (!current || exiting) return;
     const seen = getSwipedIds();
     seen.add(current.id);
     setSwipedIds(seen);
     if (like) addLikedBook(current);
-    setDrag(0);
     setDragging(false);
     dragStart.current = null;
-    setDeck((d) => d.slice(1));
+    setExiting(like ? "like" : "skip");
+    exitTimer.current = window.setTimeout(() => {
+      setExiting(null);
+      setDrag(0);
+      setDeck((d) => d.slice(1));
+    }, EXIT_MS);
   };
 
   const restart = () => {
+    window.clearTimeout(exitTimer.current);
+    setExiting(null);
+    setDrag(0);
     setSwipedIds(new Set());
     setStatus("loading");
     setDeck([]);
@@ -98,6 +111,7 @@ function GuestSwipe() {
 
   // ─── pointer drag (skip left / save right) ────────────────────────────
   const onPointerDown = (e) => {
+    if (exiting) return;
     dragStart.current = e.clientX;
     setDragging(true);
     e.currentTarget.setPointerCapture?.(e.pointerId);
@@ -117,6 +131,17 @@ function GuestSwipe() {
     }
   };
 
+  const exitDir = exiting === "like" ? 1 : exiting === "skip" ? -1 : 0;
+  const cardStyle = exiting
+    ? {
+        transform: `translateX(${exitDir * 115}vw) rotate(${exitDir * 16}deg)`,
+        transition: `transform ${EXIT_MS}ms ease-out`,
+      }
+    : {
+        transform: `translateX(${drag}px) rotate(${drag * 0.03}deg)`,
+        transition: dragging ? "none" : "transform .25s ease",
+      };
+
   return (
     <div className="gswipe">
       <GuestTopbar />
@@ -128,54 +153,53 @@ function GuestSwipe() {
           <div className="gswipe-card-wrap">
             {status === "error" && <p className="gswipe-notice">{t("swipe.error")}</p>}
 
-            <article
-              className="gswipe-card"
-              style={{
-                transform: `translateX(${drag}px) rotate(${drag * 0.03}deg)`,
-                transition: dragging ? "none" : "transform .25s ease",
-              }}
-              onPointerDown={onPointerDown}
-              onPointerMove={onPointerMove}
-              onPointerUp={onPointerUp}
-              onPointerCancel={onPointerUp}
-            >
-              <span className={`gswipe-flash save${drag > 40 ? " on" : ""}`}>
-                {t("swipe.like")}
-              </span>
-              <span className={`gswipe-flash skip${drag < -40 ? " on" : ""}`}>
-                {t("swipe.dislike")}
-              </span>
+            <div className="gswipe-card-anim" key={current.id}>
+              <article
+                className="gswipe-card"
+                style={cardStyle}
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerCancel={onPointerUp}
+              >
+                <span className={`gswipe-flash save${drag > 40 ? " on" : ""}`}>
+                  {t("swipe.like")}
+                </span>
+                <span className={`gswipe-flash skip${drag < -40 ? " on" : ""}`}>
+                  {t("swipe.dislike")}
+                </span>
 
-              {current.cover ? (
-                <img className="gswipe-cover" src={current.cover} alt="" draggable="false" />
-              ) : (
-                <span className="gswipe-cover gswipe-cover--empty" aria-hidden="true" />
-              )}
-              <h2 className="gswipe-book-title">{current.title}</h2>
-              {current.author && (
-                <p className="gswipe-book-author">
-                  {t("wishlist.by")} {current.author}
-                </p>
-              )}
-              <p className="gswipe-claptext">{current.claptext || "…"}</p>
-            </article>
+                {current.cover ? (
+                  <img className="gswipe-cover" src={current.cover} alt="" draggable="false" />
+                ) : (
+                  <span className="gswipe-cover gswipe-cover--empty" aria-hidden="true" />
+                )}
+                <h2 className="gswipe-book-title">{current.title}</h2>
+                {current.author && (
+                  <p className="gswipe-book-author">
+                    {t("wishlist.by")} {current.author}
+                  </p>
+                )}
+                <p className="gswipe-claptext">{current.claptext || "…"}</p>
+              </article>
 
-            <button
-              type="button"
-              className="gswipe-icon-btn skip"
-              aria-label={t("swipe.dislike")}
-              onClick={() => advance(false)}
-            >
-              <img src={trashIcon} alt="" />
-            </button>
-            <button
-              type="button"
-              className="gswipe-icon-btn save"
-              aria-label={t("swipe.like")}
-              onClick={() => advance(true)}
-            >
-              <img src={checkIcon} alt="" />
-            </button>
+              <button
+                type="button"
+                className="gswipe-icon-btn skip"
+                aria-label={t("swipe.dislike")}
+                onClick={() => advance(false)}
+              >
+                <img src={trashIcon} alt="" />
+              </button>
+              <button
+                type="button"
+                className="gswipe-icon-btn save"
+                aria-label={t("swipe.like")}
+                onClick={() => advance(true)}
+              >
+                <img src={checkIcon} alt="" />
+              </button>
+            </div>
           </div>
         ) : (
           <div className="gswipe-empty">

@@ -45,7 +45,7 @@ export const translations = {
     },
 
     swipe: {
-      title:   "Discover",
+      title:   "Swipe",
       like:    "Save",
       read:    "Read",
       dislike: "Skip",
@@ -127,7 +127,7 @@ export const translations = {
       appName: "Tinder for Books",
       home:        "Start",
       preferences: "Präferenzen",
-      swipe:       "Entdecken",
+      swipe:       "Swipe",
       wishlist:    "Merkliste",
       read:        "Gelesen",
       profile:     "Profil",
@@ -165,7 +165,7 @@ export const translations = {
     },
 
     swipe: {
-      title:   "Entdecken",
+      title:   "Swipe",
       like:    "Merken",
       read:    "Gelesen",
       dislike: "Weiter",

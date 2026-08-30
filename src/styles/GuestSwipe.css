@@ -15,6 +15,7 @@
   padding: calc(20px + env(safe-area-inset-top)) 24px calc(112px + env(safe-area-inset-bottom));
   color: #F5F1E6;
   font-family: 'Inria Sans', sans-serif;
+  overflow-x: clip; /* the card flies off-screen on swipe */
 }
 
 .gswipe-stage {
@@ -25,11 +26,28 @@
   justify-content: center;
 }
 
-/* wrapper so the action buttons can straddle the card's bottom edge */
 .gswipe-card-wrap {
-  position: relative;
   width: 100%;
   max-width: 281px;
+}
+
+/* holds the card + the two action buttons; plays the "new card" intro and
+   is the positioning context for the buttons that straddle the card edge */
+.gswipe-card-anim {
+  position: relative;
+  width: 100%;
+  animation: gswipe-card-in 0.32s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+@keyframes gswipe-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ─── Card (Figma: rgba(117,134,149,0.2), border #2b2f33, radius 28) ──── */
@@ -44,6 +62,7 @@
   border: 1px solid #2B2F33;
   box-shadow: 0 0 42px 3px rgba(0, 0, 0, 0.42);
   overflow: clip;
+  will-change: transform;
 
   display: flex;
   flex-direction: column;
