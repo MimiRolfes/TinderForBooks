@@ -143,13 +143,17 @@ desktop typography, dense forms, and generic dashboard aesthetics.
 
 ## 9. Mobile UX
 
-The product is **mobile-first** and should feel like an app rather than
-a desktop site scaled down.
+This is a **mobile-only app. There is no desktop version.** Do not design,
+build, or test for desktop layouts — the React prototype is a phone app
+and is validated on phone viewports / the iOS Simulator only.
+
+It should feel like an app rather than a website.
 
 Primary mobile navigation uses bottom tabs: - Home - Discover / Swipe -
 Wishlist - Read - Profile
 
-Desktop/web may adapt appropriately.
+Because iOS Safari is a target, respect `env(safe-area-inset-*)` and use
+`viewport-fit=cover`; full-screen backdrops must cover the status-bar area.
 
 ## 10. Localization
 
@@ -172,16 +176,22 @@ frame (cosmos background, serif hero, cream CTAs, translucent info cards,
 decorative turtle doodle) - Guest Home ("Guest Home" frame) redesigned:
 genre suggestion decks with real book covers, per-genre translucent card
 surfaces, cream Swipe buttons - reusable `BottomNav` component
-(`src/components/BottomNav.jsx`) with Home / Preferences / Swipe /
-Wishlist; Home (`/home-guest`) and Preferences (`/guest-preferences`)
-are wired, Swipe and Wishlist render but stay inactive until their
-screens exist - Guest Preferences ("Guest Preferances" frame) built at
-`/guest-preferences`: genre chips (multi-select), page-count radios,
-language chips, author input, Swipe CTA; interactive local state, no
-persistence yet; controls sized up from the Figma px values for real
-mobile devices (touch targets / legibility) - global dark background set
-on `html`/`body` (with `:has(.landing)` = black) plus `100dvh` page
-heights so mobile overscroll never flashes white - shared `LangToggle`
+(`src/components/BottomNav.jsx`) — all four guest tabs wired: Home
+(`/home-guest`), Preferences (`/guest-preferences`), Swipe
+(`/guest-swipe`), Wishlist (`/guest-wishlist`) - Guest Preferences
+("Guest Preferances" frame) built at `/guest-preferences`: genre chips
+(multi-select), page-count radios, language chips, author input, Swipe
+CTA; interactive local state, no persistence yet - Guest Swipe ("Guest
+Swipe" frame) at `/guest-swipe`: one big card (cover / title / claptext)
+with trash = skip and green-check = save; drag left/right also works;
+sample deck in `src/data/guestDeck.js` (no backend for guests) - Guest
+Wishlist ("Guest Wishlist" frame) at `/guest-wishlist`: 2-column grid of
+saved books with remove (X) + buy (cart icon → Amazon) and a "Cart"
+button; reads/writes `localStorage` via `storageService` (liked +
+swiped ids) - each screen sets its own status-bar colour via
+`usePageTheme` (iOS Safari paints that strip in the document colour);
+`viewport-fit=cover` + `env(safe-area-inset-*)` respected - shared
+`LangToggle`
 and `GuestTopbar` components (`src/components/`) so the EN/DE switch and
 the "*Guest*" top bar are pixel-identical across guest screens; the
 "*Guest*" badge looks like plain text but is the tap target back to the

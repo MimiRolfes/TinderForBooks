@@ -8,14 +8,9 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  /* Base app background so overscroll / viewport quirks on mobile never
-     flash white behind a page. */
-  background-color: #2B2F33;
-}
-
-/* Start screen sits on black (Figma frame fill) — match its overscroll area. */
-html:has(.landing) {
+  min-height: 100%;
+  /* Only the initial colour before the first screen mounts — each page then
+     sets its own via usePageTheme, so the status-bar area always matches. */
   background-color: #000000;
 }
 

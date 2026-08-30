@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600;700&family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ─── Guest Wishlist — Figma "Guest Wishlist" frame ───────────────────── */
+
+.gwish {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 460px;
+  background-color: #2B2F33;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(20px + env(safe-area-inset-top)) 24px calc(150px + env(safe-area-inset-bottom));
+  color: #F5F1E6;
+  font-family: 'Inria Sans', sans-serif;
+}
+
+/* ─── 2-column grid of compact cards ─────────────────────────────────── */
+
+.gwish-grid {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  width: 100%;
+  max-width: 340px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 40px;
+  row-gap: 26px;
+}
+
+/* Figma: solid #758695, radius 15, ~130x173 */
+.gwish-card {
+  aspect-ratio: 130 / 173;
+  background: #758695;
+  border-radius: 15px;
+  padding: 18px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.gwish-cover {
+  width: 46px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.gwish-book-title {
+  margin: 10px 0 0;
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-weight: 400;
+  font-size: 0.78rem;
+  line-height: 1.25;
+  color: #F1ECDA;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.gwish-card-actions {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.gwish-icon-btn {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: block;
+}
+
+.gwish-icon-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ─── "Cart" button (Figma: #f1ecda, radius 10, Inknut Bold 16, #fb7072) ─ */
+
+.gwish-cart {
+  position: fixed;
+  right: 24px;
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  z-index: 40;
+  padding: 6px 22px;
+  border: none;
+  border-radius: 10px;
+  background: #F1ECDA;
+  color: #FB7072;
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  text-shadow: 3px 3px 3.5px rgba(0, 0, 0, 0.25);
+}
+
+/* ─── Empty state ─────────────────────────────────────────────────────── */
+
+.gwish-empty {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.gwish-empty-title {
+  margin: 0;
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-size: 1rem;
+  color: #F1ECDA;
+}
+
+.gwish-empty-hint {
+  margin: 0;
+  max-width: 240px;
+  font-size: 0.85rem;
+  color: rgba(245, 241, 230, 0.75);
+}
+
+.gwish-cta {
+  margin-top: 14px;
+  padding: 9px 22px;
+  border: none;
+  border-radius: 12px;
+  background: #F1ECDA;
+  color: #758695;
+  font-family: 'Inknut Antiqua', Georgia, serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+}

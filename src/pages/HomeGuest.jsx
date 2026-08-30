@@ -1,6 +1,7 @@
 import { useLanguage } from "../contexts/LanguageContext";
 import BottomNav from "../components/BottomNav";
 import GuestTopbar from "../components/GuestTopbar";
+import { usePageTheme } from "../hooks/usePageTheme";
 import coverDarkRomance from "../assets/covers/dark-romance.jpg";
 import coverRomance from "../assets/covers/romance.jpg";
 import coverFourthWing from "../assets/covers/fourth-wing.jpg";
@@ -20,6 +21,8 @@ const decks = [
 
 function HomeGuest() {
   const { t } = useLanguage();
+
+  usePageTheme("#2B2F33");
 
   return (
     <div className="homeguest">

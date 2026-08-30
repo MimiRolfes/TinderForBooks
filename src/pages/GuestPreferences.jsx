@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import BottomNav from "../components/BottomNav";
 import GuestTopbar from "../components/GuestTopbar";
+import { usePageTheme } from "../hooks/usePageTheme";
 import "../styles/GuestPreferences.css";
 
 const GENRES = [
@@ -19,6 +20,8 @@ const LANGUAGES = ["Deutsch", "English"];
 
 function GuestPreferences() {
   const { t } = useLanguage();
+
+  usePageTheme("#2B2F33");
 
   const [genres, setGenres] = useState([]);
   const [pages, setPages] = useState(null);

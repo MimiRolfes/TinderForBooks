@@ -45,10 +45,14 @@ export const translations = {
     },
 
     swipe: {
+      title:   "Discover",
       like:    "Save",
       read:    "Read",
-      dislike: "Next",
-      empty:   "No more books available.",
+      dislike: "Skip",
+      empty:   "That's every book for now.",
+      emptyHint: "Come back later for fresh suggestions.",
+      restart: "Start over",
+      genreLabel: "Genre",
     },
 
     guestPrefs: {
@@ -79,14 +83,17 @@ export const translations = {
     },
 
     wishlist: {
-      title:          "Your Wishlist",
+      title:          "Wishlist",
       empty:          "Your wishlist is empty.",
-      emptyHint:      "Swipe right on books you like to add them here!",
-      clearAll:       "Clear All",
+      emptyHint:      "Save books while swiping to collect them here.",
+      goSwipe:        "Start swiping",
+      cart:           "Cart",
+      clearAll:       "Clear all",
       confirmClear:   "Remove all books from your wishlist?",
-      buyOnAmazon:    "📚 Buy on Amazon",
-      countSingular:  "1 book in your wishlist",
-      countPlural:    "{n} books in your wishlist",
+      buyOnAmazon:    "Buy",
+      remove:         "Remove",
+      countSingular:  "1 book saved",
+      countPlural:    "{n} books saved",
       by:             "by",
       noDescription:  "No description available.",
     },
@@ -156,10 +163,14 @@ export const translations = {
     },
 
     swipe: {
+      title:   "Entdecken",
       like:    "Merken",
       read:    "Gelesen",
       dislike: "Weiter",
-      empty:   "Keine weiteren Bücher verfügbar.",
+      empty:   "Das war's an Büchern für den Moment.",
+      emptyHint: "Schau später für neue Vorschläge vorbei.",
+      restart: "Von vorn",
+      genreLabel: "Genre",
     },
 
     guestPrefs: {
@@ -190,14 +201,17 @@ export const translations = {
     },
 
     wishlist: {
-      title:          "Deine Merkliste",
+      title:          "Merkliste",
       empty:          "Deine Merkliste ist leer.",
-      emptyHint:      "Swipe rechts auf Bücher, die du magst, um sie hier zu speichern!",
+      emptyHint:      "Merke dir Bücher beim Swipen, um sie hier zu sammeln.",
+      goSwipe:        "Jetzt swipen",
+      cart:           "Cart",
       clearAll:       "Alle löschen",
       confirmClear:   "Alle Bücher aus deiner Merkliste entfernen?",
-      buyOnAmazon:    "📚 Bei Amazon kaufen",
-      countSingular:  "1 Buch auf deiner Merkliste",
-      countPlural:    "{n} Bücher auf deiner Merkliste",
+      buyOnAmazon:    "Kaufen",
+      remove:         "Entfernen",
+      countSingular:  "1 Buch gemerkt",
+      countPlural:    "{n} Bücher gemerkt",
       by:             "von",
       noDescription:  "Keine Beschreibung verfügbar.",
     },
