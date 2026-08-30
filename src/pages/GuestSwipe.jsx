@@ -114,7 +114,11 @@ function GuestSwipe() {
     if (exiting) return;
     dragStart.current = e.clientX;
     setDragging(true);
-    e.currentTarget.setPointerCapture?.(e.pointerId);
+    try {
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+    } catch {
+      /* ignore — not all pointer types support capture */
+    }
   };
   const onPointerMove = (e) => {
     if (dragStart.current == null) return;
@@ -141,6 +145,20 @@ function GuestSwipe() {
         transform: `translateX(${drag}px) rotate(${drag * 0.03}deg)`,
         transition: dragging ? "none" : "transform .25s ease",
       };
+
+  // as the card is dragged toward one side, grow that action's icon and
+  // fade the other so the outcome is obvious
+  const bias = exiting
+    ? exitDir
+    : Math.max(-1, Math.min(1, drag / SWIPE_COMMIT));
+  const skipIconStyle = {
+    transform: `scale(${1 + Math.max(0, -bias) * 0.22})`,
+    opacity: 1 - Math.max(0, bias) * 0.6,
+  };
+  const saveIconStyle = {
+    transform: `scale(${1 + Math.max(0, bias) * 0.22})`,
+    opacity: 1 - Math.max(0, -bias) * 0.6,
+  };
 
   return (
     <div className="gswipe">
@@ -186,6 +204,7 @@ function GuestSwipe() {
               <button
                 type="button"
                 className="gswipe-icon-btn skip"
+                style={skipIconStyle}
                 aria-label={t("swipe.dislike")}
                 onClick={() => advance(false)}
               >
@@ -194,6 +213,7 @@ function GuestSwipe() {
               <button
                 type="button"
                 className="gswipe-icon-btn save"
+                style={saveIconStyle}
                 aria-label={t("swipe.like")}
                 onClick={() => advance(true)}
               >
