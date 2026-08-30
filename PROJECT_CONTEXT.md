@@ -183,7 +183,9 @@ mobile devices (touch targets / legibility) - global dark background set
 on `html`/`body` (with `:has(.landing)` = black) plus `100dvh` page
 heights so mobile overscroll never flashes white - shared `LangToggle`
 and `GuestTopbar` components (`src/components/`) so the EN/DE switch and
-the "*Guest*" top bar are pixel-identical across guest screens - Home
+the "*Guest*" top bar are pixel-identical across guest screens; the
+"*Guest*" badge looks like plain text but is the tap target back to the
+Start screen (`/`) so guests can reach log in / register - Home
 redesigned - Navigation
 redesigned - Swipe redesigned - EN/DE localization implemented across
 major screens - language

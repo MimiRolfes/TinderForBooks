@@ -11,7 +11,15 @@
   min-height: 28px;
 }
 
+/* Looks like the plain "*Guest*" label, but is the tap target back to
+   the Start screen. Keep the visual identical to a bare text span. */
 .guest-topbar-badge {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
   font-family: 'Inknut Antiqua', Georgia, serif;
   font-weight: 400;
   font-size: 0.8rem;

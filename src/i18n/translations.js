@@ -60,6 +60,10 @@ export const translations = {
       submit:            "Swipe",
     },
 
+    guestTopbar: {
+      back: "Back to start — log in or register",
+    },
+
     preferences: {
       title:             "How do you like to read?",
       genreLabel:        "Your genres",
@@ -165,6 +169,10 @@ export const translations = {
       author:            "Autor",
       authorPlaceholder: "Autor eingeben (optional)",
       submit:            "Swipe",
+    },
+
+    guestTopbar: {
+      back: "Zurück zum Start — anmelden oder registrieren",
     },
 
     preferences: {
