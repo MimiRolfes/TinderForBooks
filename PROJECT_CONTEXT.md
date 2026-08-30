@@ -180,11 +180,18 @@ surfaces, cream Swipe buttons - reusable `BottomNav` component
 (`/home-guest`), Preferences (`/guest-preferences`), Swipe
 (`/guest-swipe`), Wishlist (`/guest-wishlist`) - Guest Preferences
 ("Guest Preferances" frame) built at `/guest-preferences`: genre chips
-(multi-select), page-count radios, language chips, author input, Swipe
-CTA; interactive local state, no persistence yet - Guest Swipe ("Guest
-Swipe" frame) at `/guest-swipe`: one big card (cover / title / claptext)
-with trash = skip and green-check = save; drag left/right also works;
-sample deck in `src/data/guestDeck.js` (no backend for guests) - Guest
+(multi-select), page-count radios, language chips, author input; the
+Swipe CTA saves the choice via `storageService.setPreferences`
+(sessionStorage) and opens the swipe deck - Guest Home genre decks: the
+"Swipe" button opens `/guest-swipe` for that genre (router state) -
+Guest Swipe ("Guest Swipe" frame) at `/guest-swipe`: one big card
+(cover / title / blurb) with trash = skip and green-check = save; drag
+left/right also works. Deck comes from the **Open Library API**
+(`src/services/books.js`, no key, CORS): `fetchGuestDeck` builds it from
+the tapped genre or the stored preferences (subject / author / page-count
+/ language → query params); blurbs are hydrated lazily for the visible +
+next card (Open Library `/works` is slow); `src/data/guestDeck.js`
+(`FALLBACK_DECK`) shows when the API fails or returns nothing - Guest
 Wishlist ("Guest Wishlist" frame) at `/guest-wishlist`: 2-column grid of
 saved books with remove (X) + buy (cart icon → Amazon) and a "Cart"
 button; reads/writes `localStorage` via `storageService` (liked +

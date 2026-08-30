@@ -4,9 +4,9 @@ import coverFourthWing from "../assets/covers/fourth-wing.jpg";
 import coverBlackwood from "../assets/covers/blackwood-institute.jpg";
 import coverMimik from "../assets/covers/mimik.jpg";
 
-// Sample deck for the guest swipe flow. Guest mode has no backend, so these
-// are static reference books (same covers already used on Guest Home).
-export const GUEST_DECK = [
+// Offline fallback deck: shown when the Google Books request fails or comes
+// back empty, so the swipe screen is never blank. Same covers as Guest Home.
+export const FALLBACK_DECK = [
   {
     id: "vbb",
     title: "Very Bad Bastard",

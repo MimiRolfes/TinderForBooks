@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext";
 import BottomNav from "../components/BottomNav";
 import GuestTopbar from "../components/GuestTopbar";
 import { usePageTheme } from "../hooks/usePageTheme";
+import { setPreferences } from "../services/storageService";
 import "../styles/GuestPreferences.css";
 
 const GENRES = [
@@ -20,6 +22,7 @@ const LANGUAGES = ["Deutsch", "English"];
 
 function GuestPreferences() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   usePageTheme("#2B2F33");
 
@@ -30,6 +33,11 @@ function GuestPreferences() {
 
   const toggleGenre = (g) =>
     setGenres((prev) => (prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]));
+
+  const startSwiping = () => {
+    setPreferences({ genres, pages, language, author: author.trim() });
+    navigate("/guest-swipe");
+  };
 
   return (
     <div className="prefs">
@@ -100,8 +108,7 @@ function GuestPreferences() {
       </section>
 
       <div className="prefs-actions">
-        {/* Discover / Swipe screen not implemented yet */}
-        <button type="button" className="prefs-swipe-btn">
+        <button type="button" className="prefs-swipe-btn" onClick={startSwiping}>
           {t("guestPrefs.submit")}
         </button>
       </div>
