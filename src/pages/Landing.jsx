@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext";
 import LangToggle from "../components/LangToggle";
 import cosmosBg from "../assets/cosmos_2099375163.jpeg";
-import turtleDoodle from "../assets/turtle-doodle.png";
 import "../styles/Landing.css";
 
 function Landing() {
@@ -19,7 +18,6 @@ function Landing() {
         </h1>
 
         <div className="landing-actions">
-          <img className="landing-doodle" src={turtleDoodle} alt="" aria-hidden="true" />
           <button className="landing-btn" onClick={() => navigate("/home-guest")}>
             {t("landing.guestButton")}
           </button>

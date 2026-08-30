@@ -1,32 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;700&family=Inria+Sans:ital,wght@0,400;0,700;1,400&display=swap');
 
-/* ─── Start / Landing — "Warm Pages" over cosmos ─────────────────────────── */
+/* ─── Start / Landing — Figma "Start" frame ─────────────────────────────── */
 
-/* Backdrop = exactly the Figma "Start" frame: black fill + the cosmos
-   image at 21% opacity on top. The whole backdrop is pinned to the
-   viewport (position: fixed) — it fills the screen and does not move
-   when the content scrolls. .landing-inner is the centred content
-   column on top. */
+/* .landing = the frame itself: black fill + cosmos water image at 21%.
+   Exactly one viewport tall, never scrolls. .landing-inner is the centred
+   content column. */
 .landing {
-  min-height: 100vh;
-  min-height: 100dvh;
-  flex: 1;
+  height: 100vh;
+  height: 100dvh;
   width: 100%;
   background-color: #000000;
   display: flex;
   justify-content: center;
   font-family: 'Inria Sans', sans-serif;
   position: relative;
-  overflow-x: clip;
+  overflow: hidden;
 }
 
 .landing::before {
   content: '';
-  position: fixed;
+  position: absolute;
   inset: 0;
   background-image: var(--bg-image);
   background-size: cover;
-  background-position: center;
+  background-position: 54% center;
   background-repeat: no-repeat;
   opacity: 0.21;
   z-index: 0;
@@ -38,11 +35,13 @@
   z-index: 1;
   width: 100%;
   max-width: 460px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
-  padding: 44px 24px 64px;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 52px 24px 36px;
 }
 
 /* ─── Language toggle (shared .lang-toggle — position only) ────────────── */
@@ -61,7 +60,7 @@
   font-weight: 400;
   font-size: 1.5rem;
   text-align: center;
-  margin: 30px 0 4px;
+  margin: 8px 0 12px;
   line-height: 1.25;
   color: #F1ECDA;
 }
@@ -70,34 +69,19 @@
   color: #FB7072;
 }
 
-/* ─── Actions (buttons + decorative doodle) ─────────────────────────────── */
+/* ─── Actions (buttons) ────────────────────────────────────────────────── */
 
 .landing-actions {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
   width: 100%;
   max-width: 210px;
-  padding: 4px 0 32px;
-}
-
-.landing-doodle {
-  position: absolute;
-  left: -52px;
-  top: 24px;
-  width: 108px;
-  height: 152px;
-  object-fit: contain;
-  opacity: 0.85;
-  pointer-events: none;
-  z-index: 0;
+  margin-bottom: 12px;
 }
 
 .landing-btn {
-  position: relative;
-  z-index: 1;
   width: 100%;
   padding: 7px 14px;
   border: none;
@@ -119,7 +103,7 @@
   background: rgba(117, 134, 149, 0.57);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
-  padding: 12px 18px 18px;
+  padding: 12px 18px 16px;
   backdrop-filter: blur(2px);
 }
 
@@ -130,15 +114,15 @@
   line-height: 1.2;
   color: #FB7072;
   text-align: center;
-  margin: 2px 0 10px;
+  margin: 2px 0 8px;
 }
 
 .landing-card p {
   font-family: 'Inria Sans', sans-serif;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 0.8rem;
+  line-height: 1.42;
   color: #F5F1E6;
-  margin: 0 0 12px;
+  margin: 0 0 10px;
 }
 
 .landing-card p:last-child {
