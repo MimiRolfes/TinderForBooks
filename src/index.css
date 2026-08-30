@@ -14,11 +14,6 @@ body {
   background-color: #2B2F33;
 }
 
-/* Landing sits on near-black; keep its overscroll area matching. */
-html:has(.landing) {
-  background-color: #000;
-}
-
 #root {
   min-height: 100vh;
   min-height: 100dvh;

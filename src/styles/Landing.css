@@ -2,29 +2,25 @@
 
 /* ─── Start / Landing — "Warm Pages" over cosmos ─────────────────────────── */
 
+/* .landing is the full-bleed backdrop; .landing-inner is the content column.
+   The backdrop is ONE layer stack — base colour + cosmos water + a soft
+   dark tint — and it always covers the whole viewport. */
 .landing {
   min-height: 100vh;
   min-height: 100dvh;
   flex: 1;
   width: 100%;
-  margin: 0 auto;
-  max-width: 460px;
-  background-color: #000;
+  background-color: #2B2F33;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 22px;
-  padding: 44px 24px 64px;
+  justify-content: center;
   font-family: 'Inria Sans', sans-serif;
   position: relative;
   overflow: hidden;
 }
 
-/* Cosmos image covers the whole viewport, not just the 460px content
-   column (fixed so it fills wide screens and stays put while scrolling). */
 .landing::before {
   content: '';
-  position: fixed;
+  position: absolute;
   inset: 0;
   background-image: var(--bg-image);
   background-size: cover;
@@ -35,9 +31,25 @@
   pointer-events: none;
 }
 
-.landing > * {
+.landing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.landing-inner {
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 44px 24px 64px;
 }
 
 /* ─── Language toggle (shared .lang-toggle — position only) ────────────── */
