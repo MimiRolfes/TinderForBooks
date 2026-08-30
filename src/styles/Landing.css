@@ -2,15 +2,17 @@
 
 /* ─── Start / Landing — "Warm Pages" over cosmos ─────────────────────────── */
 
-/* .landing holds the content column; the backdrop is ONE fixed layer stack
-   — base colour + cosmos water + a soft dark tint — that stays put while
-   the content scrolls and always covers the whole viewport. */
+/* .landing is the page backdrop and always covers the whole viewport.
+   Its background is ONE plain layer stack — blue base colour, then the
+   cosmos water image, then a dark tint on top. No fixed attachment, no
+   parallax: it is just the background of the page.
+   .landing-inner is the centred content column that sits on top. */
 .landing {
   min-height: 100vh;
   min-height: 100dvh;
   flex: 1;
   width: 100%;
-  background-color: #2B2F33;
+  background-color: #758695;
   display: flex;
   justify-content: center;
   font-family: 'Inria Sans', sans-serif;
@@ -20,7 +22,7 @@
 
 .landing::before {
   content: '';
-  position: fixed;
+  position: absolute;
   inset: 0;
   background-image: var(--bg-image);
   background-size: cover;
@@ -33,9 +35,9 @@
 
 .landing::after {
   content: '';
-  position: fixed;
+  position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.28);
+  background: rgba(0, 0, 0, 0.42);
   z-index: 0;
   pointer-events: none;
 }
