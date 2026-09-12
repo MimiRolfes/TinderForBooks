@@ -23,3 +23,7 @@ dist-ssr
 *.sw?
 .env
 .claude
+
+# Working/context docs — kept locally only
+CLAUDE.md
+PROJECT_CONTEXT.md
